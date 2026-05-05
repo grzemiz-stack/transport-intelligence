@@ -1,0 +1,50 @@
+country:
+  name: "Slovenia"
+  code: "SI"
+  languages: ["sl"]
+  timezone: "Europe/Ljubljana"
+  region: "Southeastern Europe"
+
+sources:
+  police:
+    - name: "Policija SI"
+      url: "https://www.policija.si"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "RTV SLO"
+      url: "https://www.rtvslo.si"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Prevozi SI Forum"
+      url: "https://example.com/prevozi-si"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "SI Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/slovenia"
+      url: "https://reddit.com/r/slovenia"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "DARS Promet"
+      url: "https://www.promet.si"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "AJPES ePRS"
+      url: "https://www.ajpes.si"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

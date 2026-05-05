@@ -1,0 +1,50 @@
+country:
+  name: "Montenegro"
+  code: "ME"
+  languages: ["sr"]
+  timezone: "Europe/Podgorica"
+  region: "Southeastern Europe"
+
+sources:
+  police:
+    - name: "Uprava Policije"
+      url: "https://www.gov.me/mup"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "RTCG Vijesti"
+      url: "https://www.rtcg.me"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Transport ME Forum"
+      url: "https://example.com/transport-me"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "ME Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/montenegro"
+      url: "https://reddit.com/r/montenegro"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "AMSCG"
+      url: "https://www.amscg.org"
+      trust_score: 0.9
+      is_official: false
+      scrape_interval_minutes: 10
+  financial:
+    - name: "CRPS Registar"
+      url: "https://example.com/crps-me"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

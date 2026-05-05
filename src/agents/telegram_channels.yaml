@@ -1,0 +1,23 @@
+# Prawdziwe potwierdzone kanały Telegram - marzec 2026
+
+europe:
+  - name: "Truckers of Europe 3"
+    channel: "truckers_of_europe3"
+    language: "en"
+    priority: high
+  - name: "Truckers Group"
+    channel: "truckersgroup"
+    language: "en"
+    priority: high
+  - name: "Truck Drivers Trucking Chat"
+    channel: "truck_top_chat"
+    language: "en"
+    priority: high
+  - name: "TruckerEU Dalnoboy Europa"
+    channel: "TruckerEU"
+    language: "ru"
+    priority: critical
+  - name: "Europe Truck Comments"
+    channel: "EuropeTruckComments"
+    language: "en"
+    priority: high

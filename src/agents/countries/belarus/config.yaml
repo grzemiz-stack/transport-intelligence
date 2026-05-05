@@ -1,0 +1,50 @@
+country:
+  name: "Belarus"
+  code: "BY"
+  languages: ["be", "ru"]
+  timezone: "Europe/Minsk"
+  region: "Eastern Europe"
+
+sources:
+  police:
+    - name: "MVD Belarus"
+      url: "https://www.mvd.gov.by"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "BelTA"
+      url: "https://www.belta.by"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Transport BY Forum"
+      url: "https://example.com/transport-by"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "BY Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/belarus"
+      url: "https://reddit.com/r/belarus"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "Belavtodor"
+      url: "https://www.belavtodor.by"
+      trust_score: 0.9
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "EGR Unified State Register"
+      url: "https://egr.gov.by"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

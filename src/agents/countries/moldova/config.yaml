@@ -1,0 +1,50 @@
+country:
+  name: "Moldova"
+  code: "MD"
+  languages: ["ro"]
+  timezone: "Europe/Chisinau"
+  region: "Eastern Europe"
+
+sources:
+  police:
+    - name: "Politia RM"
+      url: "https://www.politia.md"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "Moldova1"
+      url: "https://www.moldova1.md"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Transport MD Forum"
+      url: "https://example.com/transport-md"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "MD Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/moldova"
+      url: "https://reddit.com/r/moldova"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "ASD Moldova"
+      url: "https://www.asd.md"
+      trust_score: 0.9
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "ASP Registrul de Stat"
+      url: "https://www.asp.gov.md"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

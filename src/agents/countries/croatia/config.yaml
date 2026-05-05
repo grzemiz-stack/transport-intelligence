@@ -1,0 +1,50 @@
+country:
+  name: "Croatia"
+  code: "HR"
+  languages: ["hr"]
+  timezone: "Europe/Zagreb"
+  region: "Southeastern Europe"
+
+sources:
+  police:
+    - name: "MUP Policija"
+      url: "https://mup.gov.hr"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "HRT Vijesti"
+      url: "https://vijesti.hrt.hr"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Prijevoz HR Forum"
+      url: "https://example.com/prijevoz-hr"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "HR Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/croatia"
+      url: "https://reddit.com/r/croatia"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "HAK Promet"
+      url: "https://www.hak.hr"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Sudski registar"
+      url: "https://sudreg.pravosudje.hr"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

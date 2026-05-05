@@ -1,0 +1,257 @@
+# =============================================================================
+# Transport Intelligence — Forum Feeds Configuration
+# =============================================================================
+# Fora kierowcow, spedytorow i transportu w Europie.
+# Najcenniejsze zrodlo crowdsourced intelligence.
+#
+# Kazdy feed:
+#   name: nazwa do wyswietlania i logowania
+#   url: URL glownej strony/sekcji forum
+#   rss_url: jawny URL RSS feed (null = auto-detect)
+#   trust_score: 0.0-1.0 (fora = niski trust, wymaga weryfikacji)
+#   is_official: false (fora nigdy nie sa oficjalne)
+#   language: kod jezyka ISO 639-1
+#   forum_type: phpbb | vbulletin | xenforo | discourse | wordpress | generic
+#   keywords_extra: dodatkowe slowa kluczowe per forum (opcjonalne)
+# =============================================================================
+
+germany:
+  language: "de"
+  forums:
+    - name: "Fernfahrer Forum"
+      url: "https://www.fernfahrer.de/community/"
+      rss_url: null
+      trust_score: 0.3
+      is_official: false
+      language: "de"
+      forum_type: "generic"
+      keywords_extra: ["Rastplatz", "A2", "A1", "Spedition", "Parkplatz"]
+
+    - name: "Truckerforum.de"
+      url: "https://www.truckerforum.de/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "de"
+      forum_type: "generic"
+
+    - name: "Transport-Branche Forum"
+      url: "https://www.transport-branche.de/forum/"
+      rss_url: null
+      trust_score: 0.3
+      is_official: false
+      language: "de"
+      forum_type: "generic"
+
+    - name: "Verkehrsportal.de Forum"
+      url: "https://www.verkehrsportal.de/board/"
+      rss_url: null
+      trust_score: 0.3
+      is_official: false
+      language: "de"
+      forum_type: "phpbb"
+      keywords_extra: ["Verkehr", "Stau", "Kontrolle"]
+
+poland:
+  language: "pl"
+  forums:
+    - name: "Forum Kierowców TIR"
+      url: "https://www.kierowcatira.pl/forum/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "pl"
+      forum_type: "generic"
+
+    - name: "eTruck Forum"
+      url: "https://etruck.pl/forum/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "pl"
+      forum_type: "generic"
+
+    - name: "40ton.net Forum"
+      url: "https://40ton.net/forum/"
+      rss_url: null
+      trust_score: 0.3
+      is_official: false
+      language: "pl"
+      forum_type: "generic"
+      keywords_extra: ["40ton", "naczepy", "ciągniki"]
+
+    - name: "TransInfo Forum"
+      url: "https://trans.info/pl/forum"
+      rss_url: null
+      trust_score: 0.35
+      is_official: false
+      language: "pl"
+      forum_type: "generic"
+      keywords_extra: ["ładunek", "giełda", "zlecenie"]
+
+united_kingdom:
+  language: "en"
+  forums:
+    - name: "TruckNet UK"
+      url: "https://www.trucknetuk.com/phpBB/"
+      rss_url: null
+      trust_score: 0.3
+      is_official: false
+      language: "en"
+      forum_type: "phpbb"
+
+    - name: "TruckNet UK Forums"
+      url: "https://forums.trucknetuk.com/"
+      rss_url: null
+      trust_score: 0.3
+      is_official: false
+      language: "en"
+      forum_type: "generic"
+
+    - name: "Commercial Motor Forum"
+      url: "https://www.commercialmotor.com/forum"
+      rss_url: null
+      trust_score: 0.35
+      is_official: false
+      language: "en"
+      forum_type: "generic"
+
+france:
+  language: "fr"
+  forums:
+    - name: "Forum Camion"
+      url: "https://www.forum-camion.com/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "fr"
+      forum_type: "generic"
+
+    - name: "Routiers.com Forum"
+      url: "https://www.routiers.com/forum/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "fr"
+      forum_type: "generic"
+
+    - name: "France Routiers Forum"
+      url: "https://www.france-routiers.com/forum/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "fr"
+      forum_type: "generic"
+
+romania:
+  language: "ro"
+  forums:
+    - name: "Forum Soferi"
+      url: "https://www.forumsoferi.ro/"
+      rss_url: null
+      trust_score: 0.2
+      is_official: false
+      language: "ro"
+      forum_type: "generic"
+
+    - name: "Camionisti Romania"
+      url: "https://www.camionisti.ro/forum/"
+      rss_url: null
+      trust_score: 0.2
+      is_official: false
+      language: "ro"
+      forum_type: "generic"
+
+netherlands:
+  language: "nl"
+  forums:
+    - name: "Truckfan Forum"
+      url: "https://www.truckfan.nl/forum/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "nl"
+      forum_type: "generic"
+
+italy:
+  language: "it"
+  forums:
+    - name: "CamionSuperMarket Forum"
+      url: "https://www.camionsupermarket.it/forum/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "it"
+      forum_type: "generic"
+
+spain:
+  language: "es"
+  forums:
+    - name: "Foro del Transporte"
+      url: "https://www.forodeltransporte.com/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "es"
+      forum_type: "generic"
+
+czech_republic:
+  language: "cs"
+  forums:
+    - name: "Kamionaci.cz"
+      url: "https://www.kamionaci.cz/forum/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "cs"
+      forum_type: "generic"
+
+hungary:
+  language: "hu"
+  forums:
+    - name: "Kamionos Fórum"
+      url: "https://www.kamionos.hu/forum/"
+      rss_url: null
+      trust_score: 0.2
+      is_official: false
+      language: "hu"
+      forum_type: "generic"
+
+sweden:
+  language: "sv"
+  forums:
+    - name: "Lastbilsforum"
+      url: "https://www.lastbilsforum.se/"
+      rss_url: null
+      trust_score: 0.25
+      is_official: false
+      language: "sv"
+      forum_type: "generic"
+
+international:
+  language: "en"
+  forums:
+    - name: "The Truckers Report Forum"
+      url: "https://www.thetruckersreport.com/truckingindustryforum/"
+      rss_url: null
+      trust_score: 0.3
+      is_official: false
+      language: "en"
+      forum_type: "xenforo"
+
+    - name: "TruckersMP Forum"
+      url: "https://forum.truckersmp.com/"
+      rss_url: null
+      trust_score: 0.2
+      is_official: false
+      language: "en"
+      forum_type: "discourse"
+
+    - name: "European Transport Workers Forum"
+      url: "https://www.etf-europe.org/activities/"
+      rss_url: null
+      trust_score: 0.5
+      is_official: false
+      language: "en"
+      forum_type: "wordpress"
+      keywords_extra: ["road transport", "drivers", "safety", "working conditions"]

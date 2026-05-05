@@ -1,0 +1,241 @@
+# =============================================================================
+# Transport Intelligence Daemon — konfiguracja schedulera
+# =============================================================================
+
+# Globalne ustawienia schedulera
+scheduler:
+  max_concurrent_jobs: 4
+  timezone: "UTC"
+  # Jitter: losowe opoznienie przy starcie joba (sekundy)
+  jitter_seconds: 60
+
+# Definicje jobow
+jobs:
+  rss_police:
+    enabled: true
+    interval_minutes: 30
+    description: "RSS feeds — zrodla policyjne (wszystkie kraje)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 60
+
+  rss_news:
+    enabled: true
+    interval_minutes: 15
+    description: "RSS feeds — media i portale informacyjne"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 60
+
+  rss_reddit:
+    enabled: true
+    interval_minutes: 60
+    description: "Reddit RSS — globalne i per-country subreddity"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 120
+
+  rss_financial:
+    enabled: false
+    interval_minutes: 360
+    description: "RSS feeds — zrodla finansowe (6h)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 300
+
+  bundespolizei:
+    enabled: true
+    interval_minutes: 30
+    description: "Bundespolizei scraper — Presseportal + oficjalna strona"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 60
+
+  all_police_scrapers:
+    enabled: true
+    interval_minutes: 60
+    description: "Police scrapers — DE, PL, FR, NL, IT, ES, CZ, RO, GB, AT (10s przerwy miedzy krajami)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 120
+
+  pl_financial:
+    enabled: true
+    interval_minutes: 360
+    description: "Monitor Sadowy i Gospodarczy — upadlosci/restrukturyzacje firm transportowych (PL)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 300
+
+  financial_scrapers:
+    enabled: true
+    interval_minutes: 360
+    description: "European insolvency/license registries (DE, PL, GB, FR, AT) — every 6h"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 300
+
+  debt_registries:
+    enabled: true
+    interval_minutes: 720
+    description: "Rejestry dluznikow — KRD, BIG, Bundesanzeiger, BODACC, Gazette, OpenCorporates (co 12h)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 300
+
+  forums:
+    enabled: true
+    interval_minutes: 120
+    description: "Forum scraper — fora kierowcow i transportu (wszystkie kraje)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 120
+
+  google_news:
+    enabled: true
+    interval_minutes: 60
+    description: "Google News RSS — lokalne media w kluczowych miastach i regionach Europy"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 120
+
+  telegram_scan:
+    enabled: true
+    interval_minutes: 30
+    description: "Telegram channels scan — publiczne kanaly kierowcow i transportu"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 120
+
+  telegram_discovery:
+    enabled: true
+    interval_minutes: 1440
+    description: "Telegram Discovery — wyszukiwanie nowych grup/kanalow transportowych (co 24h)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 300
+
+  intelligence_classify:
+    enabled: true
+    interval_minutes: 5
+    description: "Klasyfikacja eventow do intelligence tier 1-4 (CRITICAL/HIGH/MEDIUM/LOW)"
+    max_instances: 1
+    retry_on_error: false
+    max_retries: 0
+    retry_delay_seconds: 0
+
+  alert_check:
+    enabled: true
+    interval_minutes: 5
+    description: "Sprawdza nowe eventy i generuje alerty"
+    max_instances: 1
+    retry_on_error: false
+    max_retries: 0
+    retry_delay_seconds: 0
+
+  correlation:
+    enabled: true
+    interval_minutes: 30
+    description: "Correlator — wykrywa wzorce miedzy eventami"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 60
+
+  daily_digest:
+    enabled: true
+    interval_minutes: 1440
+    description: "Dzienny digest — podsumowanie zdarzen z ostatnich 24h (7:00 UTC)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 300
+
+  biweekly_report:
+    enabled: true
+    interval_minutes: 20160
+    description: "Raport dwutygodniowy — PDF z danymi live (poniedzialek 6:00 UTC co 14 dni)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 300
+
+  monthly_report:
+    enabled: true
+    interval_minutes: 43200
+    description: "Raport miesieczny — PDF z danymi live (1-go o 6:00 UTC)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 2
+    retry_delay_seconds: 300
+
+  health_check:
+    enabled: true
+    interval_minutes: 5
+    description: "Monitoring statusu agentow i systemu"
+    max_instances: 1
+    retry_on_error: false
+    max_retries: 0
+    retry_delay_seconds: 0
+
+  watchdog:
+    enabled: true
+    interval_minutes: 2
+    description: "System watchdog — auto-healing monitoring"
+    max_instances: 1
+    retry_on_error: false
+    max_retries: 0
+    retry_delay_seconds: 0
+
+  dashboard_stats:
+    enabled: true
+    interval_minutes: 10
+    description: "Przelicza statystyki dashboardu i hotspoty"
+    max_instances: 1
+    retry_on_error: false
+    max_retries: 0
+    retry_delay_seconds: 0
+
+  discord_publish:
+    enabled: true
+    interval_minutes: 480
+    description: "Discord publisher — T1/T2 events to Cargo Watch Europe (every 8h)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 120
+
+  discord_daily_summary:
+    enabled: true
+    interval_minutes: 1440
+    description: "Discord daily summary — 24h stats to #general-chat (8:00 UTC)"
+    max_instances: 1
+    retry_on_error: true
+    max_retries: 1
+    retry_delay_seconds: 300
+
+# Ustawienia API serwera (uruchamianego razem z daemonem)
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+# PID file
+pid_file: "/tmp/transport-intelligence.pid"
+
+# Logging
+logging:
+  level: "INFO"
+  status_interval_seconds: 60

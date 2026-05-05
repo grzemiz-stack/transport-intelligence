@@ -1,0 +1,55 @@
+country:
+  name: "Austria"
+  code: "AT"
+  languages: ["de"]
+  timezone: "Europe/Vienna"
+  region: "Western Europe"
+
+sources:
+  police:
+    - name: "Bundesministerium fuer Inneres"
+      url: "https://www.bmi.gv.at"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+    - name: "Polizei.gv.at"
+      url: "https://www.polizei.gv.at"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "ORF News"
+      url: "https://orf.at"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "LKW Forum AT"
+      url: "https://example.com/lkw-at"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "AT Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/Austria"
+      url: "https://reddit.com/r/Austria"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "ASFINAG Verkehrsinfo"
+      url: "https://www.asfinag.at"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Firmenbuch"
+      url: "https://www.justiz.gv.at/firmenbuch"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

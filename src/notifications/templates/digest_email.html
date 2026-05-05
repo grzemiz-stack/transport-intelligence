@@ -1,0 +1,84 @@
+{% extends "base_email.html" %}
+{% block content %}
+<h2 style="margin: 0 0 8px 0; font-size: 22px; color: #1a1a2e;">Daily Intelligence Digest</h2>
+<p style="color: #6b7280; margin: 0 0 24px 0; font-size: 14px;">{{ period_start }} &mdash; {{ period_end }}</p>
+
+<!-- Summary cards -->
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
+  <tr>
+    <td style="padding: 16px; background: #eff6ff; border-radius: 8px; text-align: center; width: 33%;">
+      <div style="font-size: 28px; font-weight: 700; color: #1e40af;">{{ total_events }}</div>
+      <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Events</div>
+    </td>
+    <td style="width: 8px;"></td>
+    <td style="padding: 16px; background: #fef2f2; border-radius: 8px; text-align: center; width: 33%;">
+      <div style="font-size: 28px; font-weight: 700; color: #dc2626;">{{ critical_count }}</div>
+      <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Critical</div>
+    </td>
+    <td style="width: 8px;"></td>
+    <td style="padding: 16px; background: #fff7ed; border-radius: 8px; text-align: center; width: 33%;">
+      <div style="font-size: 28px; font-weight: 700; color: #ea580c;">{{ alerts_count }}</div>
+      <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Alerts</div>
+    </td>
+  </tr>
+</table>
+
+<!-- Top events -->
+{% if top_events %}
+<h3 style="font-size: 15px; color: #374151; margin-bottom: 12px;">Top events</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+  {% for event in top_events[:10] %}
+  <tr>
+    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+      {% if event.severity == "critical" %}
+      <span style="display: inline-block; width: 8px; height: 8px; background: #dc2626; border-radius: 50; margin-right: 8px;"></span>
+      {% elif event.severity == "high" %}
+      <span style="display: inline-block; width: 8px; height: 8px; background: #ea580c; border-radius: 50; margin-right: 8px;"></span>
+      {% else %}
+      <span style="display: inline-block; width: 8px; height: 8px; background: #ca8a04; border-radius: 50; margin-right: 8px;"></span>
+      {% endif %}
+      <span style="font-size: 13px; color: #6b7280;">{{ event.country }}</span>
+      <span style="font-size: 14px; color: #1a1a2e; margin-left: 4px;">{{ event.title }}</span>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<!-- Hotspots -->
+{% if new_hotspots %}
+<h3 style="font-size: 15px; color: #374151; margin-bottom: 12px;">New hotspots</h3>
+<ul style="padding-left: 20px; color: #374151; line-height: 1.8; margin-bottom: 24px;">
+  {% for hotspot in new_hotspots %}
+  <li>{{ hotspot.region }} ({{ hotspot.country }}) &mdash; {{ hotspot.event_count }} events, trend: {{ hotspot.trend }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Companies at risk -->
+{% if companies_at_risk %}
+<h3 style="font-size: 15px; color: #374151; margin-bottom: 12px;">Companies at risk</h3>
+<ul style="padding-left: 20px; color: #374151; line-height: 1.8; margin-bottom: 24px;">
+  {% for company in companies_at_risk %}
+  <li>{{ company.name }} ({{ company.country }}) &mdash; risk score: {{ company.risk_score }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Per-country breakdown -->
+{% if per_country %}
+<h3 style="font-size: 15px; color: #374151; margin-bottom: 12px;">Events by country</h3>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+  {% for country, count in per_country.items() %}
+  <tr>
+    <td style="padding: 6px 0; border-bottom: 1px solid #f3f4f6; font-weight: 500;">{{ country }}</td>
+    <td style="padding: 6px 0; border-bottom: 1px solid #f3f4f6; text-align: right; color: #6b7280;">{{ count }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<div style="margin-top: 32px; text-align: center;">
+  <a href="{{ dashboard_url }}" class="btn">Open dashboard</a>
+</div>
+{% endblock %}

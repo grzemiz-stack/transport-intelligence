@@ -1,0 +1,50 @@
+country:
+  name: "Romania"
+  code: "RO"
+  languages: ["ro"]
+  timezone: "Europe/Bucharest"
+  region: "Eastern Europe"
+
+sources:
+  police:
+    - name: "Politia Romana"
+      url: "https://www.politiaromana.ro"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "Digi24"
+      url: "https://www.digi24.ro"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Transport RO Forum"
+      url: "https://example.com/transport-ro"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "RO Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/Romania"
+      url: "https://reddit.com/r/Romania"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "CNAIR Infotrafic"
+      url: "https://www.cfrr.ro"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "ONRC Registrul Comertului"
+      url: "https://www.onrc.ro"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

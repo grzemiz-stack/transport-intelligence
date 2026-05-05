@@ -1,0 +1,799 @@
+# RSS feeds for Transport Intelligence — verified working feeds.
+# Feeds marked "placeholder" need URL verification.
+# Last updated: 2026-03-24
+
+# Global Reddit feeds — transport-related subreddits applicable to all countries
+global_reddit:
+  - name: "r/truckers"
+    url: "https://www.reddit.com/r/truckers/.rss"
+    trust_score: 0.3
+    is_official: false
+    language: "en"
+    countries: ["all"]
+  - name: "r/logistics"
+    url: "https://www.reddit.com/r/logistics/.rss"
+    trust_score: 0.3
+    is_official: false
+    language: "en"
+    countries: ["all"]
+  - name: "r/FreightBrokers"
+    url: "https://www.reddit.com/r/FreightBrokers/.rss"
+    trust_score: 0.3
+    is_official: false
+    language: "en"
+    countries: ["all"]
+  - name: "r/Trucking"
+    url: "https://www.reddit.com/r/Trucking/.rss"
+    trust_score: 0.3
+    is_official: false
+    language: "en"
+    countries: ["all"]
+  - name: "r/supplychain"
+    url: "https://www.reddit.com/r/supplychain/.rss"
+    trust_score: 0.25
+    is_official: false
+    language: "en"
+    countries: ["all"]
+
+# =============================================================================
+# GERMANY
+# =============================================================================
+germany:
+  language: de
+  police:
+    # Landowe policje via Presseportal.de
+    - name: "Polizei NRW Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_11187.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Niedersachsen Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_30835.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Hessen Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_4969.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Baden-Wuerttemberg Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_14915.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Schleswig-Holstein Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_19027.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Bundespolizei Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_70648.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Hamburg Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_6337.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Bremen Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_35235.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Thueringen Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_125951.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Saarland Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_120462.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei MV Neubrandenburg Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_108747.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei MV Rostock Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_108746.rss2"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizei Rheinpfalz Presseportal"
+      url: "https://www.presseportal.de/rss/dienststelle_117696.rss2"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "Presseportal All (DE)"
+      url: "https://www.presseportal.de/rss/presseportal.rss2"
+      trust_score: 0.8
+      is_official: false
+  reddit:
+    - name: "r/Spedition"
+      url: "https://www.reddit.com/r/Spedition/.rss"
+      trust_score: 0.3
+      is_official: false
+    - name: "r/LKW"
+      url: "https://www.reddit.com/r/LKW/.rss"
+      trust_score: 0.3
+      is_official: false
+    - name: "r/de transport search"
+      url: "https://www.reddit.com/r/de/search.rss?q=transport+LKW+Diebstahl&restrict_sr=on&sort=new"
+      trust_score: 0.2
+      is_official: false
+
+# =============================================================================
+# POLAND
+# =============================================================================
+poland:
+  language: pl
+  police:
+    - name: "Policja.pl RSS"
+      url: "https://policja.pl/pol/rss/1,dok.html"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "40ton.net"
+      url: "https://40ton.net/feed/"
+      trust_score: 0.7
+      is_official: false
+    - name: "TVN24"
+      url: "https://tvn24.pl/najnowsze.xml"
+      trust_score: 0.85
+      is_official: false
+    - name: "RMF24"
+      url: "https://www.rmf24.pl/fakty/feed"
+      trust_score: 0.85
+      is_official: false
+  reddit:
+    - name: "r/Polska transport search"
+      url: "https://www.reddit.com/r/Polska/search.rss?q=transport+kradzież+ciężarówka&restrict_sr=on&sort=new"
+      trust_score: 0.2
+      is_official: false
+    - name: "r/pracawlogistyce"
+      url: "https://www.reddit.com/r/pracawlogistyce/.rss"
+      trust_score: 0.3
+      is_official: false
+
+# =============================================================================
+# FRANCE
+# =============================================================================
+france:
+  language: fr
+  police:
+    - name: "Gendarmerie Nationale RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "France Info Titres"
+      url: "https://www.francetvinfo.fr/titres.rss"
+      trust_score: 0.85
+      is_official: false
+    - name: "France Info Faits Divers"
+      url: "https://www.francetvinfo.fr/faits-divers.rss"
+      trust_score: 0.85
+      is_official: false
+    - name: "France Bleu Infos"
+      url: "https://www.francebleu.fr/rss/infos.xml"
+      trust_score: 0.75
+      is_official: false
+  forum:
+    - name: "L'Officiel des Transporteurs"
+      url: "placeholder"
+      trust_score: 0.7
+      is_official: false
+    - name: "Actu-Transport-Logistique"
+      url: "placeholder"
+      trust_score: 0.7
+      is_official: false
+  reddit:
+    - name: "r/france transport search"
+      url: "https://www.reddit.com/r/france/search.rss?q=transport+vol+camion&restrict_sr=on&sort=new"
+      trust_score: 0.2
+      is_official: false
+
+# =============================================================================
+# NETHERLANDS
+# =============================================================================
+netherlands:
+  language: nl
+  police:
+    - name: "Politie.nl RSS"
+      url: "https://www.politie.nl/rss"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "NOS Nieuws Algemeen"
+      url: "https://feeds.nos.nl/nosnieuwsalgemeen"
+      trust_score: 0.85
+      is_official: false
+    - name: "NOS Nieuws Binnenland"
+      url: "https://feeds.nos.nl/nosnieuwsbinnenland"
+      trust_score: 0.85
+      is_official: false
+    - name: "RTL Nieuws"
+      url: "https://www.rtlnieuws.nl/rss.xml"
+      trust_score: 0.8
+      is_official: false
+  reddit:
+    - name: "r/thenetherlands transport search"
+      url: "https://www.reddit.com/r/thenetherlands/search.rss?q=transport+diefstal+vrachtwagen&restrict_sr=on&sort=new"
+      trust_score: 0.2
+      is_official: false
+
+# =============================================================================
+# BELGIUM
+# =============================================================================
+belgium:
+  language: nl
+  police:
+    - name: "Police Federale Belge RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "VRT NWS"
+      url: "https://www.vrt.be/vrtnws/nl.rss.articles.xml"
+      trust_score: 0.85
+      is_official: false
+    - name: "RTBF Info"
+      url: "https://rss.rtbf.be/article/rss/highlight_rtbf_info.xml"
+      trust_score: 0.85
+      is_official: false
+      language: fr
+    - name: "RTBF Belgique"
+      url: "https://rss.rtbf.be/article/rss/highlight_rtbf_info-belgique.xml"
+      trust_score: 0.85
+      is_official: false
+      language: fr
+
+# =============================================================================
+# ITALY
+# =============================================================================
+italy:
+  language: it
+  police:
+    - name: "Polizia di Stato Comunicati"
+      url: "https://www.poliziadistato.it/rss/feed/category/1298"
+      trust_score: 1.0
+      is_official: true
+    - name: "Polizia di Stato Notizie Flash"
+      url: "https://www.poliziadistato.it/rss/feed/category/1815"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "ANSA Homepage"
+      url: "https://www.ansa.it/sito/ansait_rss.xml"
+      trust_score: 0.85
+      is_official: false
+    - name: "ANSA Cronaca"
+      url: "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml"
+      trust_score: 0.85
+      is_official: false
+    - name: "Il Sole 24 Ore Economia"
+      url: "https://www.ilsole24ore.com/rss/economia.xml"
+      trust_score: 0.8
+      is_official: false
+  forum:
+    - name: "Trasporto Europa"
+      url: "placeholder"
+      trust_score: 0.7
+      is_official: false
+
+# =============================================================================
+# SPAIN
+# =============================================================================
+spain:
+  language: es
+  police:
+    - name: "Policia Nacional RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+    - name: "Guardia Civil RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "El Pais Portada"
+      url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada"
+      trust_score: 0.85
+      is_official: false
+    - name: "La Vanguardia Sucesos"
+      url: "https://www.lavanguardia.com/rss/sucesos.xml"
+      trust_score: 0.8
+      is_official: false
+  forum:
+    - name: "Cadena de Suministro"
+      url: "https://www.cadenadesuministro.es/feed/"
+      trust_score: 0.65
+      is_official: false
+    - name: "Transporte Profesional"
+      url: "placeholder"
+      trust_score: 0.7
+      is_official: false
+
+# =============================================================================
+# PORTUGAL
+# =============================================================================
+portugal:
+  language: pt
+  police:
+    - name: "PSP Portugal RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "Publico RSS"
+      url: "https://feeds.feedburner.com/PublicoRSS"
+      trust_score: 0.8
+      is_official: false
+    - name: "Publico API RSS"
+      url: "https://www.publico.pt/api/list/rss"
+      trust_score: 0.8
+      is_official: false
+
+# =============================================================================
+# UNITED KINGDOM
+# =============================================================================
+united_kingdom:
+  language: en
+  police:
+    - name: "Metropolitan Police RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "BBC News"
+      url: "https://feeds.bbci.co.uk/news/rss.xml"
+      trust_score: 0.85
+      is_official: false
+    - name: "BBC News UK"
+      url: "https://feeds.bbci.co.uk/news/uk/rss.xml"
+      trust_score: 0.85
+      is_official: false
+  forum:
+    - name: "Commercial Motor UK"
+      url: "placeholder"
+      trust_score: 0.75
+      is_official: false
+    - name: "Motor Transport"
+      url: "placeholder"
+      trust_score: 0.75
+      is_official: false
+  reddit:
+    - name: "r/uktrucking"
+      url: "https://www.reddit.com/r/uktrucking/.rss"
+      trust_score: 0.3
+      is_official: false
+
+# =============================================================================
+# IRELAND
+# =============================================================================
+ireland:
+  language: en
+  police:
+    - name: "Garda Siochana RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "RTE News"
+      url: "https://www.rte.ie/feeds/rss/?index=/news/"
+      trust_score: 0.85
+      is_official: false
+    - name: "Fleet Transport Ireland"
+      url: "https://fleet.ie/feed/"
+      trust_score: 0.7
+      is_official: false
+
+# =============================================================================
+# AUSTRIA
+# =============================================================================
+austria:
+  language: de
+  police:
+    - name: "BMI Austria Presse"
+      url: "https://www.bmi.gv.at/rss/bmi_presse.xml"
+      trust_score: 1.0
+      is_official: true
+    - name: "BMI Austria Bundeskriminalamt"
+      url: "https://www.bmi.gv.at/rss/bk_presse.xml"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "ORF News"
+      url: "https://rss.orf.at/news.xml"
+      trust_score: 0.85
+      is_official: false
+    - name: "ORF Oesterreich"
+      url: "https://rss.orf.at/oesterreich.xml"
+      trust_score: 0.85
+      is_official: false
+
+# =============================================================================
+# SWITZERLAND
+# =============================================================================
+switzerland:
+  language: de
+  police:
+    - name: "Kantonspolizei Zuerich RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "SRF Schweiz"
+      url: "https://www.srf.ch/news/bnf/rss/1890"
+      trust_score: 0.85
+      is_official: false
+    - name: "SRF Neueste Beitraege"
+      url: "https://www.srf.ch/news/bnf/rss/19032223"
+      trust_score: 0.85
+      is_official: false
+
+# =============================================================================
+# SWEDEN
+# =============================================================================
+sweden:
+  language: sv
+  police:
+    - name: "Polisen SE Handelser"
+      url: "https://polisen.se/aktuellt/rss/hela-landet/handelser-i-hela-landet/"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "SVT Nyheter RSS"
+      url: "placeholder"
+      trust_score: 0.85
+      is_official: false
+
+# =============================================================================
+# NORWAY
+# =============================================================================
+norway:
+  language: "no"
+  police:
+    - name: "Politiet Norge Nyheter"
+      url: "https://www.politiet.no/api/rss/nyheter"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "NRK Toppsaker"
+      url: "https://www.nrk.no/toppsaker.rss"
+      trust_score: 0.85
+      is_official: false
+    - name: "NRK Norge"
+      url: "https://www.nrk.no/norge/toppsaker.rss"
+      trust_score: 0.85
+      is_official: false
+
+# =============================================================================
+# DENMARK
+# =============================================================================
+denmark:
+  language: da
+  police:
+    - name: "Politi DK RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "DR Seneste Nyt"
+      url: "https://www.dr.dk/nyheder/service/feeds/senestenyt"
+      trust_score: 0.85
+      is_official: false
+    - name: "DR Indland"
+      url: "https://www.dr.dk/nyheder/service/feeds/indland"
+      trust_score: 0.85
+      is_official: false
+
+# =============================================================================
+# FINLAND
+# =============================================================================
+finland:
+  language: fi
+  police:
+    - name: "Poliisi Helsinki RSS"
+      url: "https://poliisi.fi/en/helsinki-police-department/-/asset_publisher/ZtAEeHB39Lxr/rss"
+      trust_score: 1.0
+      is_official: true
+      language: en
+    - name: "Poliisi NBI RSS"
+      url: "https://poliisi.fi/en/national-bureau-of-investigation/-/asset_publisher/ZtAEeHB39Lxr/rss"
+      trust_score: 1.0
+      is_official: true
+      language: en
+  news:
+    - name: "YLE Uutiset"
+      url: "https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss"
+      trust_score: 0.85
+      is_official: false
+    - name: "YLE Uutiset Recent"
+      url: "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET"
+      trust_score: 0.85
+      is_official: false
+
+# =============================================================================
+# CZECH REPUBLIC
+# =============================================================================
+czech_republic:
+  language: cs
+  police:
+    - name: "Policie CR RSS"
+      url: "https://policie.gov.cz/SCRIPT/rss.aspx?nid=36621"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "iDNES Zpravodaj"
+      url: "https://servis.idnes.cz/rss.aspx?c=zpravodaj"
+      trust_score: 0.8
+      is_official: false
+
+# =============================================================================
+# SLOVAKIA
+# =============================================================================
+slovakia:
+  language: sk
+  police:
+    - name: "Policia SR RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "SME.sk Online"
+      url: "https://rss.sme.sk/rss/export/smeonline.xml"
+      trust_score: 0.8
+      is_official: false
+    - name: "SME.sk Z domova"
+      url: "https://rss.sme.sk/rss/export/smeonline-online_zdom.xml"
+      trust_score: 0.8
+      is_official: false
+
+# =============================================================================
+# HUNGARY
+# =============================================================================
+hungary:
+  language: hu
+  police:
+    - name: "Police.hu RSS"
+      url: "https://www.police.hu/hu/rss/feed"
+      trust_score: 1.0
+      is_official: true
+    - name: "Police.hu Baleseti Hirek"
+      url: "https://www.police.hu/hu/rss/Baleseti%20h%C3%ADrek"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "Index.hu 24ora"
+      url: "https://index.hu/24ora/rss"
+      trust_score: 0.8
+      is_official: false
+
+# =============================================================================
+# ROMANIA
+# =============================================================================
+romania:
+  language: ro
+  police:
+    - name: "Politia Romana RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "Digi24 RSS"
+      url: "https://www.digi24.ro/rss"
+      trust_score: 0.8
+      is_official: false
+    - name: "Mediafax RO"
+      url: "https://www.mediafax.ro/rss/"
+      trust_score: 0.75
+      is_official: false
+
+# =============================================================================
+# BULGARIA
+# =============================================================================
+bulgaria:
+  language: bg
+  police:
+    - name: "MVR Bulgaria RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "BNT News"
+      url: "http://news.bnt.bg/bg/rss/news.xml"
+      trust_score: 0.75
+      is_official: false
+
+# =============================================================================
+# CROATIA
+# =============================================================================
+croatia:
+  language: hr
+  police:
+    - name: "MUP.hr RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "Index.hr Vijesti"
+      url: "https://www.index.hr/rss/vijesti"
+      trust_score: 0.75
+      is_official: false
+    - name: "Index.hr Nesrece i Kriminal"
+      url: "https://www.index.hr/rss/vijesti-nesrece-i-kriminal"
+      trust_score: 0.75
+      is_official: false
+
+# =============================================================================
+# SLOVENIA
+# =============================================================================
+slovenia:
+  language: sl
+  police:
+    - name: "Policija.si RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "RTV Slovenija Vse"
+      url: "https://www.rtvslo.si/feeds/00.xml"
+      trust_score: 0.8
+      is_official: false
+    - name: "RTV Slovenija Kronika"
+      url: "https://www.rtvslo.si/feeds/08.xml"
+      trust_score: 0.8
+      is_official: false
+
+# =============================================================================
+# SERBIA
+# =============================================================================
+serbia:
+  language: sr
+  police:
+    - name: "MUP Srbija RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "B92 Latest"
+      url: "https://www.b92.net/rss/latest"
+      trust_score: 0.75
+      is_official: false
+    - name: "B92 Info"
+      url: "https://www.b92.net/rss/b92/info"
+      trust_score: 0.75
+      is_official: false
+
+# =============================================================================
+# GREECE
+# =============================================================================
+greece:
+  language: el
+  police:
+    - name: "Hellenic Police RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "eKathimerini English"
+      url: "http://www.ekathimerini.com/rss"
+      trust_score: 0.8
+      is_official: false
+      language: en
+    - name: "Kathimerini GR"
+      url: "http://www.kathimerini.gr/rss"
+      trust_score: 0.8
+      is_official: false
+
+# =============================================================================
+# TURKEY
+# =============================================================================
+turkey:
+  language: tr
+  police:
+    - name: "EGM Emniyet RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "Anadolu Agency TR"
+      url: "https://www.aa.com.tr/tr/rss/default?cat=guncel"
+      trust_score: 0.85
+      is_official: false
+    - name: "Anadolu Agency EN"
+      url: "https://www.aa.com.tr/en/rss/default?cat=guncel"
+      trust_score: 0.85
+      is_official: false
+      language: en
+
+# =============================================================================
+# UKRAINE
+# =============================================================================
+ukraine:
+  language: uk
+  police:
+    - name: "NPU National Police Ukraine"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "Ukrinform EN"
+      url: "https://www.ukrinform.net/rss/block-lastnews"
+      trust_score: 0.8
+      is_official: false
+      language: en
+
+# =============================================================================
+# LITHUANIA
+# =============================================================================
+lithuania:
+  language: lt
+  police:
+    - name: "Policija LT RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "LRT Naujienos"
+      url: "https://www.lrt.lt/?rss"
+      trust_score: 0.85
+      is_official: false
+    - name: "LRT English"
+      url: "https://www.lrt.lt/en/news-in-english?rss"
+      trust_score: 0.85
+      is_official: false
+      language: en
+
+# =============================================================================
+# LATVIA
+# =============================================================================
+latvia:
+  language: lv
+  police:
+    - name: "Valsts Policija RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "LSM.lv EN Politics"
+      url: "https://eng.lsm.lv/rss/?lang=en&catid=315"
+      trust_score: 0.8
+      is_official: false
+      language: en
+    - name: "LSM.lv EN Society"
+      url: "https://eng.lsm.lv/rss/?lang=en&catid=278"
+      trust_score: 0.8
+      is_official: false
+      language: en
+
+# =============================================================================
+# ESTONIA
+# =============================================================================
+estonia:
+  language: et
+  police:
+    - name: "Politsei.ee RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+  news:
+    - name: "ERR News EN"
+      url: "https://news.err.ee/rss"
+      trust_score: 0.85
+      is_official: false
+      language: en
+
+# =============================================================================
+# LUXEMBOURG
+# =============================================================================
+luxembourg:
+  language: fr
+  police:
+    - name: "Police Grand-Ducale RSS"
+      url: "placeholder"
+      trust_score: 1.0
+      is_official: true
+
+# =============================================================================
+# ICELAND
+# =============================================================================
+iceland:
+  language: is
+  news:
+    - name: "RUV.is RSS"
+      url: "placeholder"
+      trust_score: 0.8
+      is_official: false

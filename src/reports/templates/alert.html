@@ -1,0 +1,105 @@
+{% extends "base_report.html" %}
+
+{% block content %}
+
+{# Override default header with alert-specific banner #}
+<div style="background: {{ severity_color | default('#e65100') }}; color: white; padding: 18px 25px; border-radius: 6px; margin: -10px 0 20px 0;">
+    <div style="float: right; font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">{{ severity | upper }}</div>
+    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.9;">Real-Time Alert</div>
+    <div style="font-size: 18px; font-weight: 700; margin-top: 5px;">{{ alert.title or alert.get('event_type', 'Alert') }}</div>
+</div>
+
+{# === Alert Details === #}
+<div class="section">
+    <h2>ALERT DETAILS</h2>
+    <div class="event" style="border-left: 4px solid {{ severity_color | default('#e65100') }};">
+        <table style="border: none;">
+            <tr><td style="width: 120px; font-weight: 600; border: none;">Event Type</td><td style="border: none;">{{ alert.event_type or alert.get('event_type', '') }}</td></tr>
+            <tr><td style="font-weight: 600; border: none;">Country</td><td style="border: none;">{{ alert.country_code or alert.get('country_code', '') }}</td></tr>
+            <tr><td style="font-weight: 600; border: none;">Location</td><td style="border: none;">
+                {% if alert.location is mapping %}
+                {{ [alert.location.get('city', ''), alert.location.get('region', ''), alert.location.get('country', '')] | select | join(', ') }}
+                {% else %}
+                {{ alert.location or '' }}
+                {% endif %}
+            </td></tr>
+            <tr><td style="font-weight: 600; border: none;">Date</td><td style="border: none;">{{ alert.date or alert.get('date_parsed', '') }}</td></tr>
+            <tr><td style="font-weight: 600; border: none;">Severity</td><td style="border: none;"><span class="severity-{{ severity | lower }}">{{ severity | upper }}</span></td></tr>
+            <tr><td style="font-weight: 600; border: none;">Trust Score</td><td style="border: none;">
+                {% set ts = alert.trust_score if alert.trust_score is defined else alert.get('trust_score', 0) %}
+                {% if ts >= 0.8 %}
+                <span class="trust trust-high">{{ ts }}</span>
+                {% elif ts >= 0.4 %}
+                <span class="trust trust-medium">{{ ts }}</span>
+                {% else %}
+                <span class="trust trust-low">{{ ts }}</span>
+                {% endif %}
+            </td></tr>
+            {% if alert.source_url or alert.get('source_url') %}
+            <tr><td style="font-weight: 600; border: none;">Source</td><td style="border: none;"><a href="{{ alert.source_url or alert.get('source_url', '') }}">{{ alert.source_name or alert.get('source_name', 'Link') }}</a></td></tr>
+            {% endif %}
+        </table>
+
+        {% if alert.description or alert.processed_text or alert.get('description') %}
+        <h3>Description</h3>
+        <p>{{ alert.processed_text or alert.description or alert.get('description', '') }}</p>
+        {% endif %}
+
+        {% if alert.company_name or alert.get('company') %}
+        {% if alert.is_official or alert.get('is_official') %}
+        <p><strong>Company (official source):</strong> {{ alert.company_name or alert.get('company', '') }}</p>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+{# === Related Events === #}
+{% if related_events %}
+<div class="section">
+    <h2>RELATED EVENTS</h2>
+    <p>{{ related_events | length }} related event(s) detected that may be part of the same pattern.</p>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Country</th>
+            <th>Type</th>
+            <th>Severity</th>
+            <th>Description</th>
+            <th>Source</th>
+        </tr>
+        {% for event in related_events %}
+        <tr>
+            <td>{{ event.date or event.get('date_parsed', '') }}</td>
+            <td>{{ event.country_code or event.get('country_code', '') }}</td>
+            <td>{{ event.event_type or event.get('event_type', '') }}</td>
+            <td>
+                {% set sev = (event.severity or event.get('severity', 'MEDIUM')) | upper %}
+                <span class="severity-{{ sev | lower }}">{{ sev }}</span>
+            </td>
+            <td>{{ (event.processed_text or event.get('description', '') or event.get('title', ''))[:120] }}</td>
+            <td>
+                {% if event.source_url or event.get('source_url') %}
+                <a href="{{ event.source_url or event.get('source_url', '') }}">{{ event.source_name or event.get('source_name', 'Link') }}</a>
+                {% else %}
+                {{ event.source_name or event.get('source_name', '') }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{# === Recommended Actions === #}
+{% if recommended_actions %}
+<div class="section">
+    <h2>RECOMMENDED ACTIONS</h2>
+    <ul>
+        {% for action in recommended_actions %}
+        <li>{{ action }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% endblock %}

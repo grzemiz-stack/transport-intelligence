@@ -1,0 +1,50 @@
+country:
+  name: "Slovakia"
+  code: "SK"
+  languages: ["sk"]
+  timezone: "Europe/Bratislava"
+  region: "Eastern Europe"
+
+sources:
+  police:
+    - name: "Policia SR"
+      url: "https://www.minv.sk/?policia"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "SME.sk"
+      url: "https://www.sme.sk"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Doprava SK Forum"
+      url: "https://example.com/doprava-sk"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "SK Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/Slovakia"
+      url: "https://reddit.com/r/Slovakia"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "Stellacentrum"
+      url: "https://www.stellacentrum.sk"
+      trust_score: 0.9
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Obchodny register SR"
+      url: "https://www.orsr.sk"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

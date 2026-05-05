@@ -1,0 +1,55 @@
+country:
+  name: "Turkey"
+  code: "TR"
+  languages: ["tr"]
+  timezone: "Europe/Istanbul"
+  region: "Southeastern Europe"
+
+sources:
+  police:
+    - name: "Emniyet Genel Mudurlugu"
+      url: "https://www.egm.gov.tr"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+    - name: "Jandarma Genel Komutanligi"
+      url: "https://www.jandarma.gov.tr"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "TRT Haber"
+      url: "https://www.trthaber.com"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Nakliyat TR Forum"
+      url: "https://example.com/nakliyat-tr"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "TR Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/Turkey"
+      url: "https://reddit.com/r/Turkey"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "KGM Karayollari"
+      url: "https://www.kgm.gov.tr"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "MERSIS Ticaret Sicili"
+      url: "https://mersis.gtb.gov.tr"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

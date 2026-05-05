@@ -1,0 +1,50 @@
+country:
+  name: "Sweden"
+  code: "SE"
+  languages: ["sv"]
+  timezone: "Europe/Stockholm"
+  region: "Northern Europe"
+
+sources:
+  police:
+    - name: "Polisen"
+      url: "https://polisen.se"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "SVT Nyheter"
+      url: "https://www.svt.se/nyheter"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Akerier Forum"
+      url: "https://example.com/akerier"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "SE Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/sweden"
+      url: "https://reddit.com/r/sweden"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "Trafikverket"
+      url: "https://www.trafikverket.se"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Bolagsverket"
+      url: "https://www.bolagsverket.se"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

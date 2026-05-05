@@ -1,0 +1,422 @@
+# =============================================================================
+# Google News RSS Feeds — konfiguracja per kraj/region
+# =============================================================================
+# Kazdy region buduje Google News RSS URL:
+#   https://news.google.com/rss/search?q={query}&hl={lang}&gl={country}&ceid={country}:{lang}
+#
+# Query powinno zawierac slowa kluczowe transportowe + opcjonalnie nazwe miasta/regionu.
+# Google News automatycznie agreguje lokalne gazety.
+
+germany:
+  language: de
+  regions:
+    - name: "Hamburg"
+      query: "LKW Diebstahl OR Ladungsdiebstahl OR Spedition Insolvenz"
+      lang: "de"
+      country: "DE"
+    - name: "NRW Duisburg Krefeld"
+      query: "LKW Diebstahl Duisburg OR Krefeld OR Spedition"
+      lang: "de"
+      country: "DE"
+    - name: "Bremen Bremerhaven"
+      query: "LKW Diebstahl Bremen OR Bremerhaven OR Hafen Transport"
+      lang: "de"
+      country: "DE"
+    - name: "Frankfurt Hessen"
+      query: "LKW Diebstahl Frankfurt OR Hessen OR Autobahn Raststätte"
+      lang: "de"
+      country: "DE"
+    - name: "München Bayern"
+      query: "LKW Diebstahl München OR Bayern OR Brenner Transport"
+      lang: "de"
+      country: "DE"
+    - name: "Berlin Brandenburg"
+      query: "LKW Diebstahl Berlin OR Brandenburg OR Rastplatz"
+      lang: "de"
+      country: "DE"
+    - name: "DE Nationwide Theft"
+      query: "LKW Diebstahl OR Ladungsdiebstahl"
+      lang: "de"
+      country: "DE"
+    - name: "DE Nationwide Spedition"
+      query: "Spedition Insolvenz OR LKW Unfall Autobahn"
+      lang: "de"
+      country: "DE"
+
+poland:
+  language: pl
+  regions:
+    - name: "Wielkopolska Poznań"
+      query: "kradzież ciężarówka OR TIR Poznań OR Wielkopolska OR autostrada A2"
+      lang: "pl"
+      country: "PL"
+    - name: "Dolnośląskie Wrocław Świecko"
+      query: "kradzież transport Wrocław OR Świecko OR Słubice OR autostrada A4"
+      lang: "pl"
+      country: "PL"
+    - name: "Śląsk Katowice"
+      query: "kradzież ciężarówka Katowice OR Śląsk OR autostrada A1"
+      lang: "pl"
+      country: "PL"
+    - name: "Pomorze Gdańsk"
+      query: "kradzież transport Gdańsk OR Gdynia OR port"
+      lang: "pl"
+      country: "PL"
+    - name: "Mazowsze Warszawa"
+      query: "kradzież ciężarówka Warszawa OR Mazowsze OR spedycja"
+      lang: "pl"
+      country: "PL"
+    - name: "Podkarpacie"
+      query: "kradzież transport Rzeszów OR Podkarpacie OR granica Ukraina"
+      lang: "pl"
+      country: "PL"
+    - name: "PL Nationwide Theft"
+      query: "kradzież ciężarówka OR kradzież ładunku OR kradzież paliwa TIR"
+      lang: "pl"
+      country: "PL"
+    - name: "PL Nationwide Accident"
+      query: "wypadek ciężarówka OR wypadek TIR autostrada"
+      lang: "pl"
+      country: "PL"
+    - name: "PL Nationwide Spedycja"
+      query: "spedycja upadłość OR firma transportowa problemy OR wypadek TIR"
+      lang: "pl"
+      country: "PL"
+
+france:
+  language: fr
+  regions:
+    - name: "Calais Nord"
+      query: "vol camion Calais OR migrants OR poids lourd"
+      lang: "fr"
+      country: "FR"
+    - name: "Île-de-France Paris"
+      query: "vol camion Paris OR fret OR transport routier"
+      lang: "fr"
+      country: "FR"
+    - name: "Lyon Rhône-Alpes"
+      query: "vol camion Lyon OR autoroute A7 OR fret"
+      lang: "fr"
+      country: "FR"
+    - name: "Marseille PACA"
+      query: "vol camion Marseille OR port OR transport"
+      lang: "fr"
+      country: "FR"
+    - name: "FR Nationwide"
+      query: "vol camion OR vol fret OR vol marchandise routier"
+      lang: "fr"
+      country: "FR"
+    - name: "FR Nationwide Accident"
+      query: "accident poids lourd OR accident camion autoroute"
+      lang: "fr"
+      country: "FR"
+
+netherlands:
+  language: nl
+  regions:
+    - name: "Rotterdam"
+      query: "diefstal vrachtwagen Rotterdam OR haven OR transport"
+      lang: "nl"
+      country: "NL"
+    - name: "Venlo Limburg"
+      query: "diefstal vrachtwagen Venlo OR Limburg OR logistiek"
+      lang: "nl"
+      country: "NL"
+    - name: "NL Nationwide"
+      query: "diefstal vrachtwagen OR ladingdiefstal"
+      lang: "nl"
+      country: "NL"
+
+italy:
+  language: it
+  regions:
+    - name: "Milano Nord"
+      query: "furto camion Milano OR trasporto OR autostrada"
+      lang: "it"
+      country: "IT"
+    - name: "Napoli Sud"
+      query: "furto camion Napoli OR merce OR autostrada"
+      lang: "it"
+      country: "IT"
+    - name: "Genova Porto"
+      query: "furto camion Genova OR porto OR trasporto"
+      lang: "it"
+      country: "IT"
+    - name: "IT Nationwide"
+      query: "furto camion OR furto merce OR furto carico"
+      lang: "it"
+      country: "IT"
+
+spain:
+  language: es
+  regions:
+    - name: "Barcelona"
+      query: "robo camión Barcelona OR transporte OR autopista"
+      lang: "es"
+      country: "ES"
+    - name: "Valencia"
+      query: "robo camión Valencia OR puerto OR mercancía"
+      lang: "es"
+      country: "ES"
+    - name: "ES Nationwide"
+      query: "robo camión OR robo mercancía OR robo carga"
+      lang: "es"
+      country: "ES"
+
+united_kingdom:
+  language: en
+  regions:
+    - name: "London South East"
+      query: "lorry theft London OR cargo stolen OR HGV"
+      lang: "en"
+      country: "GB"
+    - name: "Midlands"
+      query: "lorry theft Birmingham OR Midlands OR warehouse"
+      lang: "en"
+      country: "GB"
+    - name: "Dover Kent"
+      query: "lorry theft Dover OR Kent OR Channel OR freight"
+      lang: "en"
+      country: "GB"
+    - name: "GB Nationwide"
+      query: "cargo theft OR lorry theft OR HGV stolen"
+      lang: "en"
+      country: "GB"
+
+turkey:
+  language: tr
+  regions:
+    - name: "Istanbul"
+      query: "kamyon hırsızlık İstanbul OR nakliye OR otoyol"
+      lang: "tr"
+      country: "TR"
+    - name: "Mersin"
+      query: "kamyon hırsızlık Mersin OR liman OR taşımacılık"
+      lang: "tr"
+      country: "TR"
+    - name: "TR Nationwide"
+      query: "kamyon hırsızlık OR kargo hırsızlık OR tır soygun"
+      lang: "tr"
+      country: "TR"
+
+romania:
+  language: ro
+  regions:
+    - name: "Nadlac granica"
+      query: "furt camion Nadlac OR Arad OR autostradă OR transport"
+      lang: "ro"
+      country: "RO"
+    - name: "București"
+      query: "furt camion București OR transport OR logistică"
+      lang: "ro"
+      country: "RO"
+    - name: "RO Nationwide"
+      query: "furt camion OR furt marfă OR accident camion"
+      lang: "ro"
+      country: "RO"
+
+czech_republic:
+  language: cs
+  regions:
+    - name: "Praha"
+      query: "krádež kamion Praha OR dálnice OR doprava"
+      lang: "cs"
+      country: "CZ"
+    - name: "CZ Nationwide"
+      query: "krádež kamion OR krádež náklad"
+      lang: "cs"
+      country: "CZ"
+
+austria:
+  language: de
+  regions:
+    - name: "Brenner Tirol"
+      query: "LKW Diebstahl Brenner OR Tirol OR Transit"
+      lang: "de"
+      country: "AT"
+    - name: "Wien"
+      query: "LKW Diebstahl Wien OR Spedition OR Autobahn"
+      lang: "de"
+      country: "AT"
+    - name: "AT Nationwide"
+      query: "LKW Diebstahl Österreich OR Ladungsdiebstahl"
+      lang: "de"
+      country: "AT"
+
+belgium:
+  language: nl
+  regions:
+    - name: "Antwerpen"
+      query: "diefstal vrachtwagen Antwerpen OR haven OR transport"
+      lang: "nl"
+      country: "BE"
+    - name: "Liège"
+      query: "vol camion Liège OR fret OR cargo"
+      lang: "fr"
+      country: "BE"
+    - name: "BE Nationwide FR"
+      query: "vol camion Belgique OR vol fret"
+      lang: "fr"
+      country: "BE"
+    - name: "BE Nationwide NL"
+      query: "diefstal vrachtwagen België"
+      lang: "nl"
+      country: "BE"
+
+hungary:
+  language: hu
+  regions:
+    - name: "Budapest"
+      query: "kamion lopás Budapest OR autópálya OR szállítmány"
+      lang: "hu"
+      country: "HU"
+    - name: "HU Nationwide"
+      query: "kamion lopás OR rakomány lopás"
+      lang: "hu"
+      country: "HU"
+
+# --- Mniejsze kraje ---
+
+sweden:
+  language: sv
+  regions:
+    - name: "SE Nationwide"
+      query: "lastbil stöld OR godsstöld"
+      lang: "sv"
+      country: "SE"
+
+norway:
+  language: "no"
+  regions:
+    - name: "NO Nationwide"
+      query: "lastebil tyveri OR godstyveri"
+      lang: "no"
+      country: "NO"
+
+denmark:
+  language: da
+  regions:
+    - name: "DK Nationwide"
+      query: "lastbil tyveri OR godstyveri"
+      lang: "da"
+      country: "DK"
+
+finland:
+  language: fi
+  regions:
+    - name: "FI Nationwide"
+      query: "rekka varkaus OR rahtivarkaus"
+      lang: "fi"
+      country: "FI"
+
+croatia:
+  language: hr
+  regions:
+    - name: "HR Nationwide"
+      query: "krađa kamion OR krađa tereta"
+      lang: "hr"
+      country: "HR"
+
+slovenia:
+  language: sl
+  regions:
+    - name: "SI Nationwide"
+      query: "kraja tovornjak OR kraja tovora"
+      lang: "sl"
+      country: "SI"
+
+serbia:
+  language: sr
+  regions:
+    - name: "RS Nationwide"
+      query: "крађа камион OR крађа терета"
+      lang: "sr"
+      country: "RS"
+
+bulgaria:
+  language: bg
+  regions:
+    - name: "BG Nationwide"
+      query: "кражба камион OR кражба товар"
+      lang: "bg"
+      country: "BG"
+
+greece:
+  language: el
+  regions:
+    - name: "GR Nationwide"
+      query: "κλοπή φορτηγό OR κλοπή φορτίου"
+      lang: "el"
+      country: "GR"
+
+ukraine:
+  language: uk
+  regions:
+    - name: "UA Nationwide"
+      query: "крадіжка вантажівка OR крадіжка вантажу"
+      lang: "uk"
+      country: "UA"
+
+lithuania:
+  language: lt
+  regions:
+    - name: "LT Nationwide"
+      query: "sunkvežimis vagystė OR krovinio vagystė"
+      lang: "lt"
+      country: "LT"
+
+latvia:
+  language: lv
+  regions:
+    - name: "LV Nationwide"
+      query: "kravas auto zādzība"
+      lang: "lv"
+      country: "LV"
+
+estonia:
+  language: et
+  regions:
+    - name: "EE Nationwide"
+      query: "veok vargus OR kaubavargus"
+      lang: "et"
+      country: "EE"
+
+slovakia:
+  language: sk
+  regions:
+    - name: "SK Nationwide"
+      query: "krádež kamión OR krádež nákladu"
+      lang: "sk"
+      country: "SK"
+
+switzerland:
+  language: de
+  regions:
+    - name: "CH Nationwide"
+      query: "LKW Diebstahl Schweiz OR Ladungsdiebstahl"
+      lang: "de"
+      country: "CH"
+
+portugal:
+  language: pt
+  regions:
+    - name: "PT Nationwide"
+      query: "roubo camião OR furto carga"
+      lang: "pt"
+      country: "PT"
+
+ireland:
+  language: en
+  regions:
+    - name: "IE Nationwide"
+      query: "truck theft Ireland OR cargo stolen"
+      lang: "en"
+      country: "IE"
+
+moldova:
+  language: ro
+  regions:
+    - name: "MD Nationwide"
+      query: "furt camion Moldova"
+      lang: "ro"
+      country: "MD"

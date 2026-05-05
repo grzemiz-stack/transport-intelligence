@@ -1,0 +1,65 @@
+# Discord server configs for transport intelligence monitoring.
+# Fill in guild_id values after bot is invited to each server.
+
+trucking_servers:
+  - name: "European Truckers"
+    guild_id: ""
+    channels: ["general", "theft-alerts", "road-conditions"]
+    language: "en"
+    country_code: "EU"
+
+  - name: "ETS2 Community"
+    guild_id: ""
+    channels: ["real-trucking", "road-alerts"]
+    language: "en"
+    country_code: "EU"
+
+  - name: "Trucker Community DE"
+    guild_id: ""
+    channels: ["allgemein", "warnungen"]
+    language: "de"
+    country_code: "DE"
+
+  - name: "Polish Truckers"
+    guild_id: ""
+    channels: ["ogolne", "alerty", "kontrole"]
+    language: "pl"
+    country_code: "PL"
+
+  - name: "Transporteurs FR"
+    guild_id: ""
+    channels: ["general", "alertes-routieres"]
+    language: "fr"
+    country_code: "FR"
+
+# Our own server — bot PUBLISHES events here
+own_server:
+  name: "Cargo Watch Europe"
+  guild_id: "1486719201337937990"
+  channels:
+    theft-alerts: "theft_alerts"
+    road-warnings: "road_warnings"
+    unsafe-parkings: "unsafe_parkings"
+    company-warnings: "company_warnings"
+    country-pl: "country_pl"
+    country-de: "country_de"
+    country-fr: "country_fr"
+    country-nl: "country_nl"
+    country-it: "country_it"
+    country-es: "country_es"
+    country-gb: "country_gb"
+    country-at: "country_at"
+    country-cz: "country_cz"
+    country-ro: "country_ro"
+    country-hu: "country_hu"
+    country-be: "country_be"
+    country-se: "country_se"
+    country-tr: "country_tr"
+    country-ua: "country_ua"
+    country-other: "country_other"
+    general-chat: "ogólny"
+  summary_channel: "ogólny"
+  language: "en"
+  publish_tiers: [1, 2]
+  publish_interval_minutes: 480
+  max_posts_per_day: 50

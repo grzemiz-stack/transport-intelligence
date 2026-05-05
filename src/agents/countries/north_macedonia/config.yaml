@@ -1,0 +1,50 @@
+country:
+  name: "North Macedonia"
+  code: "MK"
+  languages: ["mk"]
+  timezone: "Europe/Skopje"
+  region: "Southeastern Europe"
+
+sources:
+  police:
+    - name: "MVR Makedonija"
+      url: "https://mvr.gov.mk"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "MIA News"
+      url: "https://mia.mk"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Transport MK Forum"
+      url: "https://example.com/transport-mk"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "MK Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/mkd"
+      url: "https://reddit.com/r/mkd"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "AMSM"
+      url: "https://www.amsm.mk"
+      trust_score: 0.9
+      is_official: false
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Centralen registar"
+      url: "https://www.crm.com.mk"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

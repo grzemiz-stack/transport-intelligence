@@ -1,0 +1,55 @@
+country:
+  name: "Italy"
+  code: "IT"
+  languages: ["it"]
+  timezone: "Europe/Rome"
+  region: "Southern Europe"
+
+sources:
+  police:
+    - name: "Polizia di Stato"
+      url: "https://www.poliziadistato.it"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+    - name: "Arma dei Carabinieri"
+      url: "https://www.carabinieri.it"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "ANSA"
+      url: "https://www.ansa.it"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Camionisti Italiani Forum"
+      url: "https://example.com/camionisti"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "IT Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/italy"
+      url: "https://reddit.com/r/italy"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "Autostrade per l'Italia"
+      url: "https://www.autostrade.it"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Registro Imprese"
+      url: "https://www.registroimprese.it"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

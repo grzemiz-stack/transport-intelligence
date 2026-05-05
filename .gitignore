@@ -1,0 +1,89 @@
+# === SECRETS ===
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/
+credentials/
+
+# === PYTHON ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# === VIRTUAL ENVS ===
+venv/
+.venv/
+env/
+ENV/
+
+# === NODE ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+
+# === BUILD / DIST ===
+dist/
+build/
+*.egg
+frontend/dist/
+frontend/build/
+frontend/.vite/
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# === LOGS ===
+logs/
+*.log
+
+# === DATABASE / DUMPS ===
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql.gz
+
+# === OUTPUT / REPORTS / CACHE ===
+output/
+reports/output/
+reports/cache/
+.cache/
+tmp/
+temp/
+
+# === TELEGRAM SESSIONS ===
+*.session
+*.session-journal
+
+# === SCRAPY ===
+.scrapy/
+
+# === LOCAL DEVELOPMENT ===
+local_*
+test_local_*
+
+# === DUPLICATES (clean up legacy nested folder) ===
+transport-intelligence/
+
+# === MIGRATIONS ARTIFACTS ===
+migrations/versions/__pycache__/

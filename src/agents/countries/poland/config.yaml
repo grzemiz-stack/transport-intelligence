@@ -1,0 +1,130 @@
+country:
+  name: "Poland"
+  code: "PL"
+  languages: ["pl"]
+  timezone: "Europe/Warsaw"
+  region: "Eastern Europe"
+
+sources:
+  police:
+    - name: "Policja.pl Komenda Glowna"
+      url: "https://www.policja.pl/pol/aktualnosci"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+    - name: "KWP Dolnoslaskie"
+      url: "https://dolnoslaska.policja.gov.pl"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 45
+    - name: "KWP Mazowieckie"
+      url: "https://mazowiecka.policja.gov.pl"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 45
+    - name: "KWP Slaskie"
+      url: "https://slaska.policja.gov.pl"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 45
+    - name: "CBSP"
+      url: "https://cbsp.policja.pl"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 60
+    - name: "GITD"
+      url: "https://gitd.gov.pl/dla-mediow/aktualnosci"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 45
+  news:
+    - name: "TVN24"
+      url: "https://tvn24.pl"
+      trust_score: 0.85
+      is_official: false
+      scrape_interval_minutes: 15
+    - name: "Onet Wiadomosci"
+      url: "https://wiadomosci.onet.pl"
+      trust_score: 0.75
+      is_official: false
+      scrape_interval_minutes: 15
+    - name: "Transport Manager"
+      url: "https://www.transport-manager.pl"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 30
+    - name: "TSL Biznes"
+      url: "https://www.tsl-biznes.pl"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 30
+    - name: "40ton.net"
+      url: "https://40ton.net"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 30
+  forums:
+    - name: "Forum eTransport"
+      url: "https://www.etransport.pl/forum"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+    - name: "Forum Kierowcow"
+      url: "https://www.kierowca.pl/forum"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+    - name: "Forum Transportowe"
+      url: "https://www.forum-transportowe.pl"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "Transport PL Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/Polska Transport"
+      url: "https://reddit.com/r/polska"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "GDDKiA Serwis Drog"
+      url: "https://www.gddkia.gov.pl/pl/817/informacje-drogowe"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+    - name: "Viatoll"
+      url: "https://www.viatoll.pl"
+      trust_score: 0.9
+      is_official: true
+      scrape_interval_minutes: 15
+  financial:
+    - name: "KRS (eKRS)"
+      url: "https://ekrs.ms.gov.pl"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720
+    - name: "Monitor Sadowy i Gospodarczy"
+      url: "https://ems.ms.gov.pl"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 1440
+    - name: "CEIDG"
+      url: "https://aplikacja.ceidg.gov.pl"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 1440
+    - name: "KRD BIG"
+      url: "https://krd.pl"
+      trust_score: 0.85
+      is_official: false
+      scrape_interval_minutes: 360
+    - name: "BIG InfoMonitor"
+      url: "https://www.big.pl"
+      trust_score: 0.85
+      is_official: false
+      scrape_interval_minutes: 360

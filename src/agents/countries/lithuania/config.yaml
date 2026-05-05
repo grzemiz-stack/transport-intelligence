@@ -1,0 +1,50 @@
+country:
+  name: "Lithuania"
+  code: "LT"
+  languages: ["lt"]
+  timezone: "Europe/Vilnius"
+  region: "Northern Europe"
+
+sources:
+  police:
+    - name: "Lietuvos Policija"
+      url: "https://policija.lrv.lt"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "LRT"
+      url: "https://www.lrt.lt"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Transportas LT Forum"
+      url: "https://example.com/transportas-lt"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "LT Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/lithuania"
+      url: "https://reddit.com/r/lithuania"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "LAKD"
+      url: "https://www.lakd.lt"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Registru Centras"
+      url: "https://www.registrucentras.lt"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="{{ language | default('en') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        /* === Base Layout === */
+        @page {
+            size: A4;
+            margin: 2cm 1.5cm;
+            @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+                font-size: 9px;
+                color: #999;
+            }
+            @bottom-right {
+                content: "Transport Intelligence \00a9 {{ year }}";
+                font-size: 9px;
+                color: #999;
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            color: #333;
+            font-size: 11px;
+            line-height: 1.5;
+            background: #fff;
+        }
+
+        /* === Header === */
+        .header {
+            border-bottom: 3px solid #1a365d;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .header-logo {
+            font-size: 10px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        .header h1 {
+            color: #1a365d;
+            margin: 5px 0;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .header .meta {
+            color: #666;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        /* === Sections === */
+        .section {
+            margin: 25px 0;
+            page-break-inside: avoid;
+        }
+        .section h2 {
+            color: #1a365d;
+            border-bottom: 1px solid #cbd5e0;
+            padding-bottom: 8px;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+        .section h3 {
+            color: #2d3748;
+            font-size: 12px;
+            margin: 12px 0 8px 0;
+        }
+        .section p {
+            margin: 6px 0;
+            color: #4a5568;
+        }
+
+        /* === Summary Box === */
+        .summary-box {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin: 15px 0;
+        }
+        .summary-box .stat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .summary-box .stat-item {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+        .summary-box .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a365d;
+        }
+        .summary-box .stat-label {
+            font-size: 9px;
+            color: #718096;
+            text-transform: uppercase;
+        }
+
+        /* === Tables === */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 10px;
+        }
+        th {
+            background: #1a365d;
+            color: #fff;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 9px;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 7px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #f7fafc; }
+        tr:hover { background: #edf2f7; }
+
+        /* === Severity Colors === */
+        .severity-critical {
+            background: #fc8181;
+            color: #742a2a;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+        .severity-high {
+            background: #f6ad55;
+            color: #7b341e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+        .severity-medium {
+            background: #faf089;
+            color: #744210;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+        .severity-low {
+            background: #9ae6b4;
+            color: #22543d;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+        .severity-info {
+            background: #bee3f8;
+            color: #2a4365;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+        }
+
+        /* === Trust Score === */
+        .trust { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 9px; }
+        .trust-high { background: #c6f6d5; color: #276749; }
+        .trust-medium { background: #fefcbf; color: #975a16; }
+        .trust-low { background: #fed7d7; color: #9b2c2c; }
+
+        /* === Events === */
+        .event {
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #fff;
+        }
+        .event .source {
+            color: #718096;
+            font-size: 9px;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid #edf2f7;
+        }
+        .event .source a { color: #3182ce; text-decoration: none; }
+
+        /* === Disclaimer === */
+        .disclaimer {
+            background: #fffbeb;
+            border-left: 4px solid #d69e2e;
+            padding: 12px 15px;
+            margin: 20px 0;
+            font-size: 9px;
+            color: #744210;
+            line-height: 1.6;
+        }
+
+        /* === Warning === */
+        .warning {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 10px;
+            color: #742a2a;
+        }
+
+        /* === Map Placeholder === */
+        .map-placeholder {
+            background: #edf2f7;
+            border: 2px dashed #cbd5e0;
+            border-radius: 6px;
+            padding: 40px;
+            text-align: center;
+            color: #a0aec0;
+            margin: 15px 0;
+        }
+
+        /* === Trend Arrows === */
+        .trend-rising { color: #e53e3e; font-weight: 700; }
+        .trend-declining { color: #38a169; font-weight: 700; }
+        .trend-stable { color: #718096; }
+        .trend-new { color: #d69e2e; font-weight: 700; }
+
+        /* === Footer === */
+        .footer {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 2px solid #1a365d;
+            font-size: 8px;
+            color: #a0aec0;
+            text-align: center;
+        }
+        .footer p { margin: 3px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">TRANSPORT INTELLIGENCE</div>
+        <h1>{{ title }}</h1>
+        <div class="meta">
+            Generated: {{ generated_at }} | Period: {{ period }} | Countries: {{ countries | join(', ') }}
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        {{ disclaimer | replace('\n', '<br>') }}
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <div class="footer">
+        <p>Transport Intelligence &copy; {{ year }} | CONFIDENTIAL</p>
+        <p>{{ disclaimer_short }}</p>
+    </div>
+</body>
+</html>

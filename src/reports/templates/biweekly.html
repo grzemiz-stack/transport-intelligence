@@ -1,0 +1,183 @@
+{% extends "base_report.html" %}
+
+{% block content %}
+
+{# === Executive Summary === #}
+<div class="section">
+    <h2>EXECUTIVE SUMMARY</h2>
+    <div class="summary-box">
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-number">{{ total_events }}</div>
+                <div class="stat-label">Total Events</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ confirmed.events | length }}</div>
+                <div class="stat-label">Confirmed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ signals.events | length }}</div>
+                <div class="stat-label">Market Signals</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ financial.events | length }}</div>
+                <div class="stat-label">Financial Alerts</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ countries | length }}</div>
+                <div class="stat-label">Countries</div>
+            </div>
+        </div>
+    </div>
+
+    {% if executive_summary %}
+    <h3>Top Hotspots</h3>
+    {% if executive_summary.top_hotspots %}
+    <table>
+        <tr><th>Region</th><th>Incidents</th></tr>
+        {% for spot in executive_summary.top_hotspots %}
+        <tr><td>{{ spot.region }}</td><td>{{ spot.count }}</td></tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No hotspots identified in this period.</p>
+    {% endif %}
+
+    {% if executive_summary.top_financial_companies %}
+    <h3>Companies with Financial Signals</h3>
+    <table>
+        <tr><th>Company</th><th>Issues</th></tr>
+        {% for comp in executive_summary.top_financial_companies %}
+        <tr><td>{{ comp.company }}</td><td>{{ comp.issues }}</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    {% endif %}
+</div>
+
+{# === 1. Confirmed Incidents === #}
+<div class="section">
+    <h2>1. {{ confirmed.title }}</h2>
+    <p>{{ confirmed.description }}</p>
+
+    {% if confirmed.events %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Country</th>
+            <th>Region</th>
+            <th>Type</th>
+            <th>Severity</th>
+            <th>Description</th>
+            <th>Source</th>
+        </tr>
+        {% for event in confirmed.events %}
+        <tr>
+            <td>{{ event.date or event.get('date_parsed', '') }}</td>
+            <td>{{ event.country_code or event.get('country_code', '') }}</td>
+            <td>{{ event.get('location', {}).get('region', '') if event.get('location') is mapping else '' }}</td>
+            <td>{{ event.event_type or event.get('event_type', '') }}</td>
+            <td>
+                {% set sev = (event.severity or event.get('severity', 'MEDIUM')) | upper %}
+                <span class="severity-{{ sev | lower }}">{{ sev }}</span>
+            </td>
+            <td>{{ (event.processed_text or event.get('description', '') or event.get('title', ''))[:120] }}</td>
+            <td>
+                {% if event.source_url or event.get('source_url') %}
+                <a href="{{ event.source_url or event.get('source_url', '') }}">{{ event.source_name or event.get('source_name', 'Link') }}</a>
+                {% else %}
+                {{ event.source_name or event.get('source_name', '') }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No confirmed incidents in this period.</p>
+    {% endif %}
+</div>
+
+{# === 2. Market Signals === #}
+<div class="section">
+    <h2>2. {{ signals.title }}</h2>
+    {% if signals.warning %}
+    <div class="warning">{{ signals.warning }}</div>
+    {% endif %}
+    <p>{{ signals.description }}</p>
+
+    {% if signals.events %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Country</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Source</th>
+            <th>Trust</th>
+        </tr>
+        {% for event in signals.events %}
+        <tr>
+            <td>{{ event.date or event.get('date_parsed', '') }}</td>
+            <td>{{ event.country_code or event.get('country_code', '') }}</td>
+            <td>{{ event.event_type or event.get('event_type', '') }}</td>
+            <td>{{ (event.get('company_display', '') ~ ' — ' if event.get('company_display') else '') }}{{ (event.processed_text or event.get('description', '') or event.get('title', ''))[:100] }}</td>
+            <td>{{ event.source_name or event.get('source_name', '') }}</td>
+            <td>
+                {% set ts = event.trust_score if event.trust_score is defined else event.get('trust_score', 0) %}
+                <span class="trust trust-medium">{{ ts }}</span>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No market signals in this period.</p>
+    {% endif %}
+</div>
+
+{# === 3. Risk Map === #}
+<div class="section">
+    <h2>3. {{ risk_map.title }}</h2>
+    <p>{{ risk_map.description }}</p>
+
+    <div class="map-placeholder">
+        [Risk Heatmap — geographic visualization placeholder]
+    </div>
+
+    {% if risk_map.events %}
+    <table>
+        <tr><th>Region</th><th>Incidents</th><th>Event Types</th></tr>
+        {% for region in risk_map.events[:10] %}
+        <tr>
+            <td>{{ region.region }}</td>
+            <td>{{ region.count }}</td>
+            <td>
+                {% for t, c in region.types.items() %}
+                {{ t }}: {{ c }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+{# === 4. Active Alerts === #}
+{% if correlations %}
+<div class="section">
+    <h2>4. ACTIVE ALERTS &amp; CORRELATIONS</h2>
+    <p>Patterns detected across multiple events.</p>
+    <table>
+        <tr><th>Pattern</th><th>Events</th><th>Countries</th><th>Confidence</th></tr>
+        {% for corr in correlations %}
+        <tr>
+            <td>{{ corr.type }}{% if corr.corridor %} ({{ corr.corridor }}){% endif %}{% if corr.company %} — {{ corr.company }}{% endif %}</td>
+            <td>{{ corr.event_count }}</td>
+            <td>{{ corr.countries | join(', ') if corr.countries else '' }}</td>
+            <td>{{ corr.confidence }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

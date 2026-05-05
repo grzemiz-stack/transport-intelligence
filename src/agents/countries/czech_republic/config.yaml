@@ -1,0 +1,55 @@
+country:
+  name: "Czech Republic"
+  code: "CZ"
+  languages: ["cs"]
+  timezone: "Europe/Prague"
+  region: "Eastern Europe"
+
+sources:
+  police:
+    - name: "Policie CR"
+      url: "https://www.policie.cz"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "iDNES"
+      url: "https://www.idnes.cz"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Trucker CZ Forum"
+      url: "https://example.com/trucker-cz"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "CZ Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/czech"
+      url: "https://reddit.com/r/czech"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "UDIMO dopravni informace"
+      url: "https://www.dopravniinfo.cz"
+      trust_score: 0.95
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "Justice.cz Obchodni rejstrik"
+      url: "https://or.justice.cz"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720
+    - name: "Insolvencni rejstrik"
+      url: "https://isir.justice.cz"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720

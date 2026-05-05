@@ -1,0 +1,48 @@
+{% extends "base_email.html" %}
+{% block content %}
+<h2 style="margin: 0 0 16px 0; font-size: 22px; color: #1a1a2e;">New Report Available</h2>
+
+<p style="color: #374151; line-height: 1.6; margin-bottom: 24px;">
+  A new report has been generated and is ready for review.
+</p>
+
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+  <tr>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #6b7280; width: 140px;">Title</td>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; font-weight: 500;">{{ title }}</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #6b7280;">Type</td>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; font-weight: 500;">{{ report_type | replace("_", " ") | title }}</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #6b7280;">Period</td>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; font-weight: 500;">{{ period_start }} &mdash; {{ period_end }}</td>
+  </tr>
+  {% if countries %}
+  <tr>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #6b7280;">Countries</td>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; font-weight: 500;">{{ countries | join(", ") }}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #6b7280;">Total events</td>
+    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; font-weight: 500;">{{ total_events }}</td>
+  </tr>
+</table>
+
+{% if summary %}
+<h3 style="font-size: 15px; color: #374151; margin-bottom: 8px;">Summary</h3>
+<p style="color: #374151; line-height: 1.6; margin-bottom: 24px;">{{ summary }}</p>
+{% endif %}
+
+{% if has_attachment %}
+<p style="color: #6b7280; font-size: 13px; margin-bottom: 24px;">
+  PDF report attached to this email.
+</p>
+{% endif %}
+
+<div style="margin-top: 32px; text-align: center;">
+  <a href="{{ dashboard_url }}/reports/{{ report_id }}" class="btn">View report in dashboard</a>
+</div>
+{% endblock %}

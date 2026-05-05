@@ -1,0 +1,50 @@
+country:
+  name: "Greece"
+  code: "GR"
+  languages: ["el"]
+  timezone: "Europe/Athens"
+  region: "Southern Europe"
+
+sources:
+  police:
+    - name: "Hellenic Police"
+      url: "https://www.astynomia.gr"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 30
+  news:
+    - name: "ERT News"
+      url: "https://www.ert.gr"
+      trust_score: 0.8
+      is_official: false
+      scrape_interval_minutes: 15
+  forums:
+    - name: "Metafores GR Forum"
+      url: "https://example.com/metafores-gr"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  telegram:
+    - name: "GR Transport Telegram"
+      url: "placeholder"
+      trust_score: 0.25
+      is_official: false
+      scrape_interval_minutes: 30
+  reddit:
+    - name: "r/greece"
+      url: "https://reddit.com/r/greece"
+      trust_score: 0.3
+      is_official: false
+      scrape_interval_minutes: 60
+  alerts:
+    - name: "MOREAS Motorways"
+      url: "https://www.moreasmo.gr"
+      trust_score: 0.9
+      is_official: true
+      scrape_interval_minutes: 10
+  financial:
+    - name: "GEMI Business Registry"
+      url: "https://www.businessportal.gr"
+      trust_score: 1.0
+      is_official: true
+      scrape_interval_minutes: 720
