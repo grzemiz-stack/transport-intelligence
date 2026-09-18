@@ -17,14 +17,6 @@ class Settings(BaseSettings):
     postgres_password: str  # REQUIRED — no default
     database_url: str  # REQUIRED — no default
 
-    # Neo4j
-    neo4j_uri: str = "bolt://localhost:7687"
-    neo4j_user: str = "neo4j"
-    neo4j_password: str  # REQUIRED — no default
-
-    # Kafka
-    kafka_bootstrap_servers: str = "localhost:9092"
-
     # Redis
     redis_url: str = "redis://localhost:6379/0"
 

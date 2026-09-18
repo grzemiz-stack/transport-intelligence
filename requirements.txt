@@ -2,12 +2,10 @@ fastapi
 uvicorn
 sqlalchemy[asyncio]
 asyncpg
-neo4j
 scrapy
 playwright
 spacy
 transformers
-kafka-python
 redis
 alembic
 pydantic
