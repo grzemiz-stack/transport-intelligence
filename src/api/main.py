@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.middleware import RateLimitMiddleware, RequestLoggingMiddleware
+from src.config import settings
 from src.api.routes import agents, alerts, auth_routes, companies, dashboard, events, integration, notifications, reports, road_alerts, subscribers, system
 from src.api.auth_apikey import admin_router as admin_apikeys_router
 from sqlalchemy import text
@@ -53,12 +54,13 @@ app = FastAPI(
 )
 
 # --- Middleware ---
+_cors_origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 app.add_middleware(RequestLoggingMiddleware)
 app.add_middleware(RateLimitMiddleware, max_requests=100)
