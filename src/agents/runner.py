@@ -24,7 +24,7 @@ import logging
 import sys
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 
 logging.basicConfig(
     level=logging.INFO,

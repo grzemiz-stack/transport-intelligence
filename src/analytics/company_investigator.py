@@ -18,7 +18,7 @@ import logging
 import re
 import uuid
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote_plus
 
@@ -961,8 +961,7 @@ class CompanyInvestigator:
     async def _enrich_from_db(self, name: str, country: str) -> dict:
         """Enrich with data from TI database (Company, Event, CompanyFinancial)."""
         try:
-            from sqlalchemy import select, desc, func
-            from sqlalchemy.orm import joinedload
+            from sqlalchemy import select, desc
             from src.db.models import Company, CompanyFinancial, Event
             from src.db.postgres import async_session
 

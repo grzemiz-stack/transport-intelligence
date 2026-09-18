@@ -30,7 +30,6 @@ async def event_timeline(
 ):
     events, _ = await get_events(db, country_code=country_code, limit=500)
     from collections import Counter
-    from datetime import datetime
 
     if grouping == "day":
         counts = Counter(
@@ -99,7 +98,6 @@ async def translate_event(
     _user: User = Depends(get_current_user),
 ):
     """Translate event title/description to Polish using Claude API."""
-    from src.db.models import Event
 
     event = await get_event_by_id(db, event_id)
     if not event:

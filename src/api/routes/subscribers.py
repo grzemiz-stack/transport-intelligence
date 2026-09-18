@@ -1,6 +1,6 @@
 """Endpointy REST API do zarzadzania subskrybentami raportow."""
 
-from datetime import date, datetime
+from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession

@@ -8,7 +8,7 @@ are captured in PoliceSourceConfig; the scraping logic lives here.
 import asyncio
 import logging
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 
 from bs4 import BeautifulSoup

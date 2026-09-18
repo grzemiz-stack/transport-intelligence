@@ -1,15 +1,14 @@
 """Reusable async query functions for all API route handlers."""
 
-from collections import Counter
 from datetime import datetime, timedelta
 
-from sqlalchemy import func, select, and_, desc, case, extract
+from sqlalchemy import func, select, and_, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from src.db.models import (
-    Event, Company, Alert, CrimeHotspot, Source, Report,
-    Subscriber, AgentStatus, CompanyFinancial, EventCorrelation, AuditLog,
+    Event, Company, Alert, CrimeHotspot, Report,
+    Subscriber, AgentStatus, CompanyFinancial,
 )
 
 

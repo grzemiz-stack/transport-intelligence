@@ -11,15 +11,13 @@ Endpoints:
 
 import json
 import logging
-import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func, or_, select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.api.auth_apikey import APIClient, get_api_client, require_permission
+from src.api.auth_apikey import APIClient, require_permission
 from src.api.routes.road_alerts import _haversine, _point_to_segment_distance, _read_alerts
 from src.api.schemas import (
     AlertsFeedResponse,

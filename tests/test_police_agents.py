@@ -6,7 +6,6 @@ custom subclasses (DE, AT, TR, CH), registry completeness.
 
 import asyncio
 
-import pytest
 
 from src.agents.police.base import BasePoliceAgent
 from src.agents.police.sources import SOURCES

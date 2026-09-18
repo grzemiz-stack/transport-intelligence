@@ -11,9 +11,8 @@ Wymaga jednorazowego setup (telegram_setup.py) z kodem weryfikacyjnym.
 """
 
 import logging
-import os
 import re
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 from telethon import TelegramClient, events

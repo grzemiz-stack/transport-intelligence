@@ -14,7 +14,6 @@ from html import unescape
 from urllib.parse import quote_plus
 
 import feedparser
-import httpx
 
 from src.agents.base_agent import BaseAgent, SourceType
 from src.agents.transport_keywords import is_transport_related

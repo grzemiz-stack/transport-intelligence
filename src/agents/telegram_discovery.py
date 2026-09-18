@@ -7,7 +7,6 @@ Prywatne kanaly zapisuje do reports/output/telegram_discovery.txt.
 
 import asyncio
 import logging
-import os
 from datetime import datetime
 from pathlib import Path
 

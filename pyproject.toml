@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = [
+    "E501",  # line-too-long (336 hits — not worth reformatting entire repo)
+    "E402",  # module-import-not-at-top (intentional in tests — env vars before imports)
+]

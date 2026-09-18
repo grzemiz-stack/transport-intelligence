@@ -10,10 +10,9 @@ Generuje raporty A4 z:
 import logging
 import os
 from datetime import datetime
-from pathlib import Path
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm, mm
@@ -1439,7 +1438,7 @@ class PdfRenderer:
 
         # Header table with navy background
         header_data = [
-            [Paragraph(f"<b>TRANSPORT INTELLIGENCE</b>", self._styles["ReportSubtitle"])],
+            [Paragraph("<b>TRANSPORT INTELLIGENCE</b>", self._styles["ReportSubtitle"])],
             [Paragraph(self._safe(title), self._styles["ReportTitle"])],
             [Paragraph(
                 f"Period: {period} | Countries: {', '.join(countries) if countries else 'All'} | "
@@ -1823,7 +1822,7 @@ class PdfRenderer:
         canvas.setFillColor(colors.HexColor("#9e9e9e"))
         canvas.drawString(
             doc.leftMargin, 1.2 * cm,
-            f"Transport Intelligence | Confidential",
+            "Transport Intelligence | Confidential",
         )
         canvas.drawRightString(
             A4[0] - doc.rightMargin, 1.2 * cm,

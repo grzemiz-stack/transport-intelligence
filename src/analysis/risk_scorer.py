@@ -4,10 +4,9 @@ Oblicza wskaznik ryzyka na podstawie historycznych zdarzen,
 czestotliwosci incydentow, ich wagi i time decay.
 """
 
-import math
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # ---------------------------------------------------------------------------
 # Result dataclasses

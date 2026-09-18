@@ -16,8 +16,7 @@ from src.api.routes import agents, alerts, auth_routes, companies, dashboard, ev
 from src.api.auth_apikey import admin_router as admin_apikeys_router
 from sqlalchemy import text
 
-from src.db.postgres import engine, async_session
-from src.db.models import Base
+from src.db.postgres import engine
 
 logger = logging.getLogger(__name__)
 

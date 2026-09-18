@@ -12,7 +12,6 @@ from datetime import datetime
 from html import unescape
 
 import feedparser
-import httpx
 
 from src.agents.base_agent import BaseAgent, SourceType
 from src.agents.transport_keywords import is_transport_related as _is_transport_related

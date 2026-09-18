@@ -14,7 +14,6 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import jwt
 from jwt import PyJWTError
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import settings
 from src.db.models import User, UserRole

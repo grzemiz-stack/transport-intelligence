@@ -604,7 +604,7 @@ class AgentScheduler:
         logger.info("[%s] START", job_id)
 
         try:
-            from sqlalchemy import func, select
+            from sqlalchemy import select
 
             from src.db.models import Alert, Event
             from src.db.postgres import async_session

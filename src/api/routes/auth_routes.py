@@ -3,9 +3,8 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from sqlalchemy import select, update
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.api.auth import (
     create_access_token,

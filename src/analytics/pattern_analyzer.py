@@ -10,7 +10,7 @@ Follows the same pattern as src/pipeline/translator.py:
 import hashlib
 import json
 import logging
-from collections import Counter, defaultdict
+from collections import Counter
 
 from src.config import settings
 from src.utils.claude_client import ClaudeClient, COUNTRY_NAMES

@@ -1,6 +1,5 @@
 """Pydantic models (schemas) dla Transport Intelligence API."""
 
-from datetime import date, datetime
 from enum import Enum
 from typing import Any
 

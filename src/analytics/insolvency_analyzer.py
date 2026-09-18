@@ -456,7 +456,7 @@ Jesli brak danych, zwroc pusta liste [].
 
         context = {
             "title": f"Analiza Upadlosci: {company_name}",
-            "subtitle": f"Premium Insolvency Intelligence Report",
+            "subtitle": "Premium Insolvency Intelligence Report",
             "report_type": "insolvency",
             "language": "pl",
             "company_name": company_name,
@@ -483,7 +483,6 @@ Jesli brak danych, zwroc pusta liste [].
 
         # Save report record
         try:
-            from sqlalchemy import select
             from src.db.models import Report
             from src.db.postgres import async_session
 

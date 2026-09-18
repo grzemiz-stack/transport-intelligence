@@ -9,7 +9,7 @@ import uuid
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
-from sqlalchemy import func, select, desc
+from sqlalchemy import select, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -21,7 +21,6 @@ from src.db.models import (
     Event,
     EventCorrelation,
     Report,
-    Source,
 )
 from src.db.postgres import async_session
 from src.reports.disclaimer import DisclaimerGenerator

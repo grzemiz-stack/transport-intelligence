@@ -6,10 +6,9 @@ z wykresami, mapami, podsumowaniami oraz obowiazkowymi sekcjami prawnymi
 """
 
 import logging
-import os
 import uuid
-from collections import Counter, defaultdict
-from datetime import date, datetime, timedelta
+from collections import Counter
+from datetime import date, datetime
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader

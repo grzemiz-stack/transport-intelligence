@@ -14,7 +14,7 @@ import subprocess
 import sys
 import uuid
 import warnings
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 
 warnings.filterwarnings("ignore", message=".*datetime.datetime.utcnow.*")
 from pathlib import Path

@@ -1,6 +1,6 @@
 """Convert SQLAlchemy models to Pydantic-compatible dicts for API responses."""
 
-from src.db.models import Event, Company, Alert, CrimeHotspot, Report, Subscriber, AgentStatus
+from src.db.models import Event, Company, Alert, CrimeHotspot, Report, Subscriber
 
 
 def event_to_dict(e: Event) -> dict:

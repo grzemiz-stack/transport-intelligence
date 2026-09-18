@@ -15,11 +15,10 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, Header, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy import select, update
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.api.auth import get_current_user, require_role
+from src.api.auth import require_role
 from src.db.models import APIKey, User, UserRole
-from src.db.postgres import async_session, get_session
+from src.db.postgres import async_session
 
 logger = logging.getLogger(__name__)
 

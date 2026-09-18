@@ -10,7 +10,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import func, select, text
 
 from src.api.auth import get_current_user
-from src.db.postgres import async_session, get_session
+from src.db.postgres import async_session
 
 router = APIRouter()
 
