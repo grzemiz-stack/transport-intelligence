@@ -44,6 +44,7 @@ class InsolvencyAnalyzer:
         self._cache: dict[str, dict | str | list] = {}
         self._claude = ClaudeClient(
             api_key=settings.anthropic_api_key,
+            max_requests_per_minute=5,
             timeout=90.0,
         )
 

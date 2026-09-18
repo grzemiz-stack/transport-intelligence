@@ -22,6 +22,13 @@ class ClaudeClient:
 
     Each instance carries its own rate-limit bucket and httpx client,
     so analytics modules can use different limits and timeouts.
+
+    Note: the rate limit is **per instance**.  Before this refactor the
+    three analytics modules shared a single module-level timestamp list,
+    so they collectively consumed 5 req/min.  Now each instance gets its
+    own budget — if all three run concurrently, the aggregate can reach
+    15 req/min.  Adjust ``max_requests_per_minute`` if a global cap is
+    needed.
     """
 
     API_URL = "https://api.anthropic.com/v1/messages"

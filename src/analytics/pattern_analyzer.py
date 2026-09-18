@@ -25,6 +25,7 @@ class PatternAnalyzer:
         self._cache: dict[str, dict | str] = {}
         self._claude = ClaudeClient(
             api_key=settings.anthropic_api_key,
+            max_requests_per_minute=5,
             timeout=60.0,
         )
 
@@ -87,7 +88,7 @@ class PatternAnalyzer:
                 }
                 self._cache[cache_key] = result
                 return result
-            except (json.JSONDecodeError, ValueError):
+            except (json.JSONDecodeError, ValueError, TypeError):
                 logger.warning("Failed to parse hotspot analysis JSON, using fallback")
 
         result = self._fallback_hotspot(events_at_location)
@@ -141,7 +142,7 @@ class PatternAnalyzer:
                 }
                 self._cache[cache_key] = result
                 return result
-            except (json.JSONDecodeError, ValueError):
+            except (json.JSONDecodeError, ValueError, TypeError):
                 logger.warning("Failed to parse corridor analysis JSON, using fallback")
 
         result = self._fallback_corridor(events_on_route)
@@ -207,7 +208,7 @@ class PatternAnalyzer:
                 }
                 self._cache[cache_key] = result
                 return result
-            except (json.JSONDecodeError, ValueError):
+            except (json.JSONDecodeError, ValueError, TypeError):
                 logger.warning("Failed to parse company analysis JSON, using fallback")
 
         result = self._fallback_company(company_events, company_financials)
