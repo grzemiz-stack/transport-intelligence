@@ -39,137 +39,43 @@ AGENT_REGISTRY: dict[str, dict[str, type]] = {}
 
 def _register_agents():
     """Rejestruje dostepne agenty."""
-    from src.agents.countries.germany.police_live import BundespolizeiAgent
-    from src.agents.countries.poland.police_live import PolishPoliceAgent
+    from functools import partial
+
+    from src.agents.police.base import BasePoliceAgent
+    from src.agents.police.custom import (
+        AustrianPoliceAgent,
+        BundespolizeiAgent,
+        SwissPoliceAgent,
+        TurkishPoliceAgent,
+    )
+    from src.agents.police.sources import SOURCES
+
     from src.agents.countries.poland.financial_live import PolishFinancialAgent
-    from src.agents.countries.france.police_live import FrenchPoliceAgent
-    from src.agents.countries.netherlands.police_live import DutchPoliceAgent
-    from src.agents.countries.italy.police_live import ItalianPoliceAgent
-    from src.agents.countries.spain.police_live import SpanishPoliceAgent
-    from src.agents.countries.czech_republic.police_live import CzechPoliceAgent
-    from src.agents.countries.romania.police_live import RomanianPoliceAgent
-    from src.agents.countries.united_kingdom.police_live import UKPoliceAgent
-    from src.agents.countries.austria.police_live import AustrianPoliceAgent
-    from src.agents.countries.belgium.police_live import BelgianPoliceAgent
-    from src.agents.countries.denmark.police_live import DanishPoliceAgent
-    from src.agents.countries.sweden.police_live import SwedishPoliceAgent
-    from src.agents.countries.norway.police_live import NorwegianPoliceAgent
-    from src.agents.countries.finland.police_live import FinnishPoliceAgent
-    from src.agents.countries.hungary.police_live import HungarianPoliceAgent
-    from src.agents.countries.croatia.police_live import CroatianPoliceAgent
-    from src.agents.countries.slovenia.police_live import SlovenianPoliceAgent
-    from src.agents.countries.serbia.police_live import SerbianPoliceAgent
-    from src.agents.countries.bulgaria.police_live import BulgarianPoliceAgent
-    from src.agents.countries.greece.police_live import GreekPoliceAgent
-    from src.agents.countries.turkey.police_live import TurkishPoliceAgent
-    from src.agents.countries.ukraine.police_live import UkrainianPoliceAgent
-    from src.agents.countries.lithuania.police_live import LithuanianPoliceAgent
-    from src.agents.countries.latvia.police_live import LatvianPoliceAgent
-    from src.agents.countries.estonia.police_live import EstonianPoliceAgent
-    from src.agents.countries.slovakia.police_live import SlovakPoliceAgent
-    from src.agents.countries.moldova.police_live import MoldovanPoliceAgent
-    from src.agents.countries.switzerland.police_live import SwissPoliceAgent
-    from src.agents.financial.insolvency_de import GermanInsolvencyAgent
-    from src.agents.financial.insolvency_pl import PolishInsolvencyAgent
     from src.agents.financial.companies_house_uk import UKCompaniesHouseAgent
-    from src.agents.financial.insolvency_fr import FrenchInsolvencyAgent
     from src.agents.financial.insolvency_at import AustrianInsolvencyAgent
+    from src.agents.financial.insolvency_de import GermanInsolvencyAgent
+    from src.agents.financial.insolvency_fr import FrenchInsolvencyAgent
+    from src.agents.financial.insolvency_pl import PolishInsolvencyAgent
     from src.agents.financial.licenses_pl import PolishLicenseAgent
 
-    AGENT_REGISTRY["DE"] = {
-        "police": BundespolizeiAgent,
-        "insolvency": GermanInsolvencyAgent,
-    }
-    AGENT_REGISTRY["PL"] = {
-        "police": PolishPoliceAgent,
-        "financial": PolishFinancialAgent,
-        "insolvency": PolishInsolvencyAgent,
-        "licenses": PolishLicenseAgent,
-    }
-    AGENT_REGISTRY["FR"] = {
-        "police": FrenchPoliceAgent,
-        "insolvency": FrenchInsolvencyAgent,
-    }
-    AGENT_REGISTRY["NL"] = {
-        "police": DutchPoliceAgent,
-    }
-    AGENT_REGISTRY["IT"] = {
-        "police": ItalianPoliceAgent,
-    }
-    AGENT_REGISTRY["ES"] = {
-        "police": SpanishPoliceAgent,
-    }
-    AGENT_REGISTRY["CZ"] = {
-        "police": CzechPoliceAgent,
-    }
-    AGENT_REGISTRY["RO"] = {
-        "police": RomanianPoliceAgent,
-    }
-    AGENT_REGISTRY["GB"] = {
-        "police": UKPoliceAgent,
-        "companies_house": UKCompaniesHouseAgent,
-    }
-    AGENT_REGISTRY["AT"] = {
-        "police": AustrianPoliceAgent,
-        "insolvency": AustrianInsolvencyAgent,
-    }
-    AGENT_REGISTRY["BE"] = {
-        "police": BelgianPoliceAgent,
-    }
-    AGENT_REGISTRY["DK"] = {
-        "police": DanishPoliceAgent,
-    }
-    AGENT_REGISTRY["SE"] = {
-        "police": SwedishPoliceAgent,
-    }
-    AGENT_REGISTRY["NO"] = {
-        "police": NorwegianPoliceAgent,
-    }
-    AGENT_REGISTRY["FI"] = {
-        "police": FinnishPoliceAgent,
-    }
-    AGENT_REGISTRY["HU"] = {
-        "police": HungarianPoliceAgent,
-    }
-    AGENT_REGISTRY["HR"] = {
-        "police": CroatianPoliceAgent,
-    }
-    AGENT_REGISTRY["SI"] = {
-        "police": SlovenianPoliceAgent,
-    }
-    AGENT_REGISTRY["RS"] = {
-        "police": SerbianPoliceAgent,
-    }
-    AGENT_REGISTRY["BG"] = {
-        "police": BulgarianPoliceAgent,
-    }
-    AGENT_REGISTRY["GR"] = {
-        "police": GreekPoliceAgent,
-    }
-    AGENT_REGISTRY["TR"] = {
-        "police": TurkishPoliceAgent,
-    }
-    AGENT_REGISTRY["UA"] = {
-        "police": UkrainianPoliceAgent,
-    }
-    AGENT_REGISTRY["LT"] = {
-        "police": LithuanianPoliceAgent,
-    }
-    AGENT_REGISTRY["LV"] = {
-        "police": LatvianPoliceAgent,
-    }
-    AGENT_REGISTRY["EE"] = {
-        "police": EstonianPoliceAgent,
-    }
-    AGENT_REGISTRY["SK"] = {
-        "police": SlovakPoliceAgent,
-    }
-    AGENT_REGISTRY["MD"] = {
-        "police": MoldovanPoliceAgent,
-    }
-    AGENT_REGISTRY["CH"] = {
-        "police": SwissPoliceAgent,
-    }
+    # 25 standard police agents from config
+    for code, cfg in SOURCES.items():
+        AGENT_REGISTRY.setdefault(code, {})["police"] = partial(BasePoliceAgent, cfg)
+
+    # 4 custom police agents (override standard entries)
+    AGENT_REGISTRY.setdefault("DE", {})["police"] = BundespolizeiAgent
+    AGENT_REGISTRY.setdefault("AT", {})["police"] = AustrianPoliceAgent
+    AGENT_REGISTRY.setdefault("TR", {})["police"] = TurkishPoliceAgent
+    AGENT_REGISTRY.setdefault("CH", {})["police"] = SwissPoliceAgent
+
+    # Non-police agents
+    AGENT_REGISTRY["PL"]["financial"] = PolishFinancialAgent
+    AGENT_REGISTRY["PL"]["insolvency"] = PolishInsolvencyAgent
+    AGENT_REGISTRY["PL"]["licenses"] = PolishLicenseAgent
+    AGENT_REGISTRY["DE"]["insolvency"] = GermanInsolvencyAgent
+    AGENT_REGISTRY["FR"]["insolvency"] = FrenchInsolvencyAgent
+    AGENT_REGISTRY["AT"]["insolvency"] = AustrianInsolvencyAgent
+    AGENT_REGISTRY["GB"]["companies_house"] = UKCompaniesHouseAgent
 
 
 # -- Pipeline components ---------------------------------------------------

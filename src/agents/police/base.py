@@ -1,14 +1,14 @@
-"""PolishPoliceAgent — live scraper dla strony Policji polskiej.
+"""BasePoliceAgent — config-driven base class for all police news scrapers.
 
-Scrapuje komunikaty policyjne z:
-https://policja.pl/pol/aktualnosci
-
-Filtruje te dotyczace transportu (kradzieze, wypadki, ladunki, TIR).
+Replaces 29 near-identical police_live.py files with a single parameterized
+implementation.  Country-specific differences (selectors, date formats, URLs)
+are captured in PoliceSourceConfig; the scraping logic lives here.
 """
 
 import asyncio
 import logging
 import re
+from dataclasses import dataclass, field
 from datetime import datetime
 
 from bs4 import BeautifulSoup
@@ -18,28 +18,44 @@ from src.agents.transport_keywords import is_transport_related
 
 logger = logging.getLogger(__name__)
 
-POLICE_URL = "https://policja.pl/pol/aktualnosci"
-
 USER_AGENT = "TransportIntelligence/1.0 (Research Bot; kontakt@example.com)"
-
 RATE_LIMIT_SECONDS = 5.0
 
 
-class PolishPoliceAgent(BaseAgent):
-    """Agent scrapujacy komunikaty Policji polskiej dot. transportu.
+@dataclass(frozen=True)
+class PoliceSourceConfig:
+    """All country-specific parameters for a police news scraper."""
 
-    Scrapuje z: policja.pl/pol/aktualnosci
-    Respektuje robots.txt, rate-limiting (max 1 req / 5s),
-    custom User-Agent z danymi kontaktowymi.
+    country_code: str
+    language: str
+    source_name: str
+    source_url: str
+    url_domain: str
+    selectors: tuple[str, ...]
+    fallback_href_markers: tuple[str, ...]
+    date_class_names: tuple[str, ...] = ()
+    date_patterns: tuple[str, ...] = (
+        r"(\d{1,2}\.\d{1,2}\.\d{4})",
+        r"(\d{4}-\d{2}-\d{2})",
+    )
+
+
+class BasePoliceAgent(BaseAgent):
+    """Config-driven police news scraper.
+
+    All country-specific behaviour is determined by PoliceSourceConfig.
+    Subclass only when a country needs truly custom parsing logic
+    (e.g. Germany with dual RSS+HTML sources).
     """
 
-    def __init__(self, event_queue=None):
+    def __init__(self, config: PoliceSourceConfig, event_queue=None):
+        self._config = config
         super().__init__(
-            country_code="PL",
-            language="pl",
+            country_code=config.country_code,
+            language=config.language,
             source_type=SourceType.POLICE,
-            source_name="Policja Polska",
-            source_url=POLICE_URL,
+            source_name=config.source_name,
+            source_url=config.source_url,
             trust_score=1.0,
             is_official=True,
             scrape_interval_minutes=60,
@@ -49,8 +65,9 @@ class PolishPoliceAgent(BaseAgent):
         )
         self._last_request_time: float = 0.0
 
+    # -- rate limiting ---------------------------------------------------
+
     async def _rate_limit(self):
-        """Enforce rate limiting — max 1 request per RATE_LIMIT_SECONDS."""
         now = asyncio.get_event_loop().time()
         elapsed = now - self._last_request_time
         if elapsed < RATE_LIMIT_SECONDS:
@@ -59,8 +76,9 @@ class PolishPoliceAgent(BaseAgent):
             await asyncio.sleep(wait)
         self._last_request_time = asyncio.get_event_loop().time()
 
+    # -- fetch -----------------------------------------------------------
+
     async def _fetch_url(self, url: str) -> str:
-        """Pobiera HTML z podanego URL z rate limiting."""
         await self._rate_limit()
         session = await self.get_session()
         headers = {"User-Agent": USER_AGENT}
@@ -76,57 +94,63 @@ class PolishPoliceAgent(BaseAgent):
         return response.text
 
     async def fetch(self) -> str:
-        """Pobiera HTML z policja.pl/pol/aktualnosci."""
-        return await self._fetch_url(POLICE_URL)
+        return await self._fetch_url(self._config.source_url)
+
+    # -- parse -----------------------------------------------------------
 
     async def parse(self, raw_data: str) -> list[dict]:
-        """Parsuje HTML z listy komunikatow policji polskiej."""
         soup = BeautifulSoup(raw_data, "html.parser")
-        events = []
-        seen_titles = set()
+        events: list[dict] = []
+        seen_titles: set[str] = set()
 
-        # policja.pl structure: list of news items
-        items = (
-            soup.select("article")
-            or soup.select("div.news-item")
-            or soup.select("div.list-item")
-            or soup.select("li.news-item")
+        items = self._find_items(soup)
+        self._logger.info(
+            "%s: znaleziono %d elementow",
+            self._config.source_name, len(items),
         )
 
-        if not items:
-            # Fallback: find all links that look like news articles
-            for link in soup.find_all("a", href=True):
-                href = link.get("href", "")
-                if "/pol/aktualnosci/" in href or "/aktualnosci/" in href:
-                    parent = link.find_parent(["div", "li", "article", "section"])
-                    if parent and parent not in items:
-                        items.append(parent)
-
-        self._logger.info("Policja.pl: znaleziono %d elementow", len(items))
         transport_count = 0
-
         for item in items:
             parsed = self._parse_item(item)
             if not parsed:
                 continue
-
-            title = parsed.get("title", "")
-            description = parsed.get("description", "")
-            full_text = f"{title} {description}".lower()
-
-            if self._is_transport_related(full_text):
-                title_key = title.strip().lower()
+            full_text = f"{parsed.get('title', '')} {parsed.get('description', '')}".lower()
+            if is_transport_related(full_text, self._config.language):
+                title_key = parsed["title"].strip().lower()
                 if title_key and title_key not in seen_titles:
                     seen_titles.add(title_key)
                     transport_count += 1
                     events.append(self._make_event(parsed))
 
-        self._logger.info("Policja.pl: %d transport-related events", transport_count)
+        self._logger.info(
+            "%s: %d transport-related events",
+            self._config.source_name, transport_count,
+        )
         return events
 
+    # -- item discovery --------------------------------------------------
+
+    def _find_items(self, soup: BeautifulSoup) -> list:
+        """Find news items using configured selectors, with link-based fallback."""
+        for selector in self._config.selectors:
+            items = soup.select(selector)
+            if items:
+                return items
+
+        # Fallback: links matching href markers
+        items: list = []
+        for link in soup.find_all("a", href=True):
+            href = link.get("href", "")
+            if any(marker in href.lower() for marker in self._config.fallback_href_markers):
+                parent = link.find_parent(["div", "li", "article", "section"])
+                if parent and parent not in items:
+                    items.append(parent)
+        return items
+
+    # -- single item parsing ---------------------------------------------
+
     def _parse_item(self, item) -> dict | None:
-        """Parsuje pojedynczy element z listy komunikatow."""
-        result = {}
+        result: dict = {}
 
         # Title
         title_el = item.find(["h2", "h3", "h4"])
@@ -147,12 +171,12 @@ class PolishPoliceAgent(BaseAgent):
         if link_el:
             href = link_el["href"]
             if href.startswith("/"):
-                href = "https://policja.pl" + href
+                href = self._config.url_domain + href
             elif not href.startswith("http"):
-                href = "https://policja.pl/" + href
+                href = self._config.url_domain + "/" + href
             result["link"] = href
         else:
-            result["link"] = POLICE_URL
+            result["link"] = self._config.source_url
 
         # Description
         desc_el = item.find("p")
@@ -166,20 +190,21 @@ class PolishPoliceAgent(BaseAgent):
 
         # Date
         result["date"] = self._extract_date(item)
-
         return result
 
+    # -- event dict ------------------------------------------------------
+
     def _make_event(self, parsed: dict) -> dict:
-        """Tworzy event dict z parsed data."""
+        cfg = self._config
         return {
             "title": parsed.get("title", ""),
             "description": parsed.get("description", ""),
             "date": parsed.get("date", ""),
-            "source_url": parsed.get("link", POLICE_URL),
+            "source_url": parsed.get("link", cfg.source_url),
             "raw_text": f"{parsed.get('title', '')}\n{parsed.get('description', '')}",
-            "country_code": "PL",
-            "language": "pl",
-            "source_name": "Policja Polska",
+            "country_code": cfg.country_code,
+            "language": cfg.language,
+            "source_name": cfg.source_name,
             "trust_score": 1.0,
             "is_official": True,
             "source_type": SourceType.POLICE.value,
@@ -187,8 +212,10 @@ class PolishPoliceAgent(BaseAgent):
             "collected_at": datetime.utcnow().isoformat(),
         }
 
+    # -- date extraction -------------------------------------------------
+
     def _extract_date(self, item) -> str:
-        """Wyciaga date z elementu HTML."""
+        # 1. <time> element
         time_el = item.find("time")
         if time_el:
             dt = time_el.get("datetime", "")
@@ -196,21 +223,17 @@ class PolishPoliceAgent(BaseAgent):
                 return dt
             return time_el.get_text(strip=True)
 
-        for cls_name in ["date", "data", "news-date", "item-date"]:
+        # 2. Elements with date-related CSS classes
+        for cls_name in self._config.date_class_names:
             date_el = item.find(class_=re.compile(cls_name, re.IGNORECASE))
             if date_el:
                 return date_el.get_text(strip=True)
 
+        # 3. Regex patterns in text
         text = item.get_text()
-        m = re.search(r"(\d{1,2}\.\d{1,2}\.\d{4})", text)
-        if m:
-            return m.group(1)
-        m = re.search(r"(\d{4}-\d{2}-\d{2})", text)
-        if m:
-            return m.group(1)
+        for pattern in self._config.date_patterns:
+            m = re.search(pattern, text)
+            if m:
+                return m.group(1)
 
         return ""
-
-    def _is_transport_related(self, text: str) -> bool:
-        """Sprawdza czy tekst dotyczy transportu (keyword matching PL)."""
-        return is_transport_related(text, "pl")
