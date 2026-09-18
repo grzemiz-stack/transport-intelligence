@@ -164,7 +164,7 @@ async def main():
 
     # Test 3: Validate
     if events:
-        validated = await test_validate(events)
+        await test_validate(events)
         logger.info("")
 
         # Test 4: Pipeline dry run

@@ -810,7 +810,6 @@ class AgentScheduler:
     async def _job_health_check(self, job_cfg: dict):
         """Monitoruje status agentow i systemu."""
         job_id = "health_check"
-        start = time.time()
 
         try:
             from sqlalchemy import func, select, text
@@ -843,7 +842,6 @@ class AgentScheduler:
                             (agent.last_error or "")[:100],
                         )
 
-            duration = time.time() - start
             self._job_stats[job_id]["runs"] += 1
             self._job_stats[job_id]["last_run"] = datetime.utcnow().isoformat()
 

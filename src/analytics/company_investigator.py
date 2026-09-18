@@ -1432,7 +1432,6 @@ RULES:
     ) -> dict:
         """Statistical-only report when Claude API is unavailable."""
         ok_sources = [s for s in sources_consulted if s["status"] == "ok"]
-        failed_sources = [s for s in sources_consulted if s["status"] == "failed"]
 
         # Detect critical signals from raw data
         risk_signals = []

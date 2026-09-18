@@ -314,9 +314,6 @@ async def run_agent(country: str, agent_name: str, once: bool = True, dry_run: b
     # Phase 2: Pipeline
     logger.info("--- Phase 2: Pipeline ---")
     processed = []
-    rejected_source = 0
-    rejected_gdpr = 0
-    rejected_legal = 0
 
     for i, ev in enumerate(events, 1):
         logger.debug("Pipeline event %d/%d: %s", i, len(events), ev.get("title", "?")[:60])
@@ -391,7 +388,6 @@ async def run_all_police(once: bool = True, dry_run: bool = False):
     logger.info("=" * 70)
 
     total_start = time.time()
-    total_events = 0
     total_errors = 0
 
     for i, country in enumerate(ALL_POLICE_COUNTRIES):

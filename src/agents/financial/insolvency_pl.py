@@ -175,8 +175,6 @@ class PolishInsolvencyAgent(BaseAgent):
             self._logger.warning("RSS parse error: %s", e)
             return events
 
-        ns = {"atom": "http://www.w3.org/2005/Atom"}
-
         # Try RSS 2.0 format
         for item in root.iter("item"):
             title_el = item.find("title")

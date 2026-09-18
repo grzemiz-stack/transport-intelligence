@@ -167,13 +167,13 @@ async def get_agent_logs(
             ))
 
     if country_code:
-        logs = [l for l in logs if l.country_code == country_code.upper()]
+        logs = [entry for entry in logs if entry.country_code == country_code.upper()]
     if agent_type:
-        logs = [l for l in logs if l.agent_type == agent_type]
+        logs = [entry for entry in logs if entry.agent_type == agent_type]
     if level:
-        logs = [l for l in logs if l.level == level.upper()]
+        logs = [entry for entry in logs if entry.level == level.upper()]
 
-    logs.sort(key=lambda l: l.timestamp, reverse=True)
+    logs.sort(key=lambda entry: entry.timestamp, reverse=True)
     return logs[:limit]
 
 

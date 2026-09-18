@@ -251,7 +251,7 @@ async def get_dashboard_overview(session: AsyncSession) -> dict:
 
     # Active alerts
     active_alerts = (await session.execute(
-        select(func.count(Alert.id)).where(Alert.is_active == True)
+        select(func.count(Alert.id)).where(Alert.is_active.is_(True))
     )).scalar() or 0
 
     # Agent summary
@@ -394,7 +394,7 @@ async def get_report_by_id(session: AsyncSession, report_id) -> Report | None:
 async def get_subscribers(session: AsyncSession, active_only: bool = True) -> list[Subscriber]:
     q = select(Subscriber)
     if active_only:
-        q = q.where(Subscriber.is_active == True)
+        q = q.where(Subscriber.is_active.is_(True))
     q = q.order_by(Subscriber.company_name)
     result = await session.execute(q)
     return list(result.scalars().all())

@@ -70,11 +70,16 @@ async def list_events(
         limit=limit, offset=offset,
     )
     filters = {}
-    if country_code: filters["country_code"] = country_code.upper()
-    if event_type: filters["event_type"] = event_type
-    if severity: filters["severity"] = severity.upper()
-    if tier: filters["tier"] = tier
-    if include_low: filters["include_low"] = True
+    if country_code:
+        filters["country_code"] = country_code.upper()
+    if event_type:
+        filters["event_type"] = event_type
+    if severity:
+        filters["severity"] = severity.upper()
+    if tier:
+        filters["tier"] = tier
+    if include_low:
+        filters["include_low"] = True
 
     return EventListResponse(
         total=total, limit=limit, offset=offset,

@@ -777,7 +777,6 @@ class PdfRenderer:
         overall_risk = inv.get("overall_risk", {})
         risk_score = overall_risk.get("score", 0)
         risk_level = overall_risk.get("level", "UNKNOWN")
-        risk_trend = overall_risk.get("trend", "unknown")
 
         risk_color_map = {
             "CRITICAL": SEVERITY_COLORS["critical"],

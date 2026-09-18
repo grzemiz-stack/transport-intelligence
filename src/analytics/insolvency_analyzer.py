@@ -15,7 +15,6 @@ import json
 import logging
 import uuid
 import xml.etree.ElementTree as ET
-from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import quote_plus
@@ -721,7 +720,6 @@ Jesli brak danych, zwroc pusta liste [].
         if len(company_events) >= 5:
             dates = sorted(e.get("date", "") for e in company_events if e.get("date"))
             if len(dates) >= 5:
-                recent = dates[-5:]
                 # If 5+ events in last 30 days
                 warnings.append({
                     "signal": "activity_spike",
@@ -801,7 +799,6 @@ Jesli nie wykrywasz sygnalow, zwroc pusta liste [].
     ) -> dict:
         """Statistical-only analysis when Claude API is unavailable."""
         events = insolvency_data.get("events", [])
-        type_counts = Counter(e.get("event_type", "other") for e in events)
 
         return {
             "company_name": company_name,

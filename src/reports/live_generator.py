@@ -330,17 +330,10 @@ class LiveReportGenerator:
 
         async with async_session() as session:
             events = await self._fetch_events(session, period_start, period_end, countries)
-            prev_events = await self._fetch_events(
-                session,
-                period_start - timedelta(days=period_days),
-                period_start,
-                countries,
-            )
-            hotspots = await self._fetch_hotspots(session, countries)
+            await self._fetch_hotspots(session, countries)
             companies_at_risk = await self._fetch_companies_at_risk(session, countries)
 
             event_dicts = [self._event_to_dict(e) for e in events]
-            prev_dicts = [self._event_to_dict(e) for e in prev_events]
 
             # --- AI Analyses ---
 
