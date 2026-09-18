@@ -43,7 +43,6 @@ COUNTRY_CODE_MAP = {
     "switzerland": "CH", "slovakia": "SK", "slovenia": "SI", "lithuania": "LT",
     "latvia": "LV", "estonia": "EE", "greece": "GR", "serbia": "RS",
     "luxembourg": "LU", "iceland": "IS", "turkey": "TR", "ukraine": "UA",
-    "ireland": "IE",
 }
 
 # Reverse: code -> country name

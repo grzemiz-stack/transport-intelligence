@@ -37,7 +37,6 @@ FORBIDDEN_WORDS: dict[str, str] = {
     "illegal": "non-compliant",
     "Betrug": "Vorfall",
     "Dieb": "gemeldete Person",
-    "illegal": "nicht konform",
 }
 
 

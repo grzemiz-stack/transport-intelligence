@@ -246,71 +246,84 @@ for _name, _cc, _lat, _lon, _pop, _aliases in _CITIES_RAW:
 # ---------------------------------------------------------------------------
 
 _HIGHWAYS: dict[str, dict] = {
-    # Poland
-    "A1": {"countries": ["PL", "IT", "SI"], "desc": "Gdansk-Lodz-Katowice (PL) / Milano-Napoli (IT)"},
-    "A2": {"countries": ["PL", "DE", "NL"], "desc": "Swiecko-Poznan-Lodz-Warszawa (PL) / Oberhausen-Dortmund (DE)"},
-    "A4": {"countries": ["PL", "DE", "IT"], "desc": "Zgorzelec-Wroclaw-Krakow-Korczowa (PL) / Dresden-Erfurt (DE)"},
-    "A6": {"countries": ["PL", "DE", "FR"], "desc": "Szczecin-Kolbaskowo (PL)"},
+    # -- Multi-country highways (merged to avoid duplicate keys) ----------------
+    "A1": {
+        "countries": ["PL", "IT", "SI", "FR", "AT", "RO", "BG"],
+        "desc": "Gdansk-Katowice (PL) / Milano-Napoli (IT) / Paris-Lille (FR) / Wien-Salzburg (AT) / Bucuresti-Sibiu (RO)",
+    },
+    "A2": {
+        "countries": ["PL", "DE", "NL", "AT", "ES", "CH"],
+        "desc": "Swiecko-Warszawa (PL) / Oberhausen-Dortmund (DE) / Wien-Klagenfurt (AT) / Madrid-Barcelona (ES) / Basel-Chiasso (CH)",
+    },
+    "A3": {
+        "countries": ["DE", "RO"],
+        "desc": "Emmerich-Koeln-Frankfurt-Passau (DE) / Bucuresti-Brasov-Cluj (RO)",
+    },
+    "A4": {
+        "countries": ["PL", "DE", "IT"],
+        "desc": "Zgorzelec-Krakow-Korczowa (PL) / Dresden-Erfurt (DE) / Torino-Milano-Trieste (IT)",
+    },
+    "A6": {
+        "countries": ["PL", "DE", "FR"],
+        "desc": "Szczecin-Kolbaskowo (PL) / Paris-Lyon (FR)",
+    },
+    "A7": {
+        "countries": ["DE", "FR"],
+        "desc": "Flensburg-Hamburg-Fuessen (DE) / Lyon-Marseille (FR)",
+    },
+    "A9": {
+        "countries": ["DE", "IT", "FR"],
+        "desc": "Berlin-Nuernberg-Muenchen (DE) / Orange-Perpignan (FR)",
+    },
+    "A10": {
+        "countries": ["DE", "FR"],
+        "desc": "Berliner Ring (DE) / Paris-Bordeaux (FR)",
+    },
+    "M1": {
+        "countries": ["HU", "GB"],
+        "desc": "Budapest-Gyor-Hegyeshalom (HU) / London-Leeds (GB)",
+    },
+    # -- Poland (unique) -------------------------------------------------------
     "A8": {"countries": ["PL"], "desc": "Krakow-Katowice (PL)"},
     "S8": {"countries": ["PL"], "desc": "Wroclaw-Lodz-Warszawa-Bialystok (PL)"},
     "S3": {"countries": ["PL"], "desc": "Swinoujscie-Szczecin-Zielona Gora-Legnica (PL)"},
-    # Germany
-    "A3": {"countries": ["DE"], "desc": "Emmerich-Koeln-Frankfurt-Nuernberg-Passau"},
+    # -- Germany (unique) ------------------------------------------------------
     "A5": {"countries": ["DE"], "desc": "Hattenbacher Dreieck-Frankfurt-Karlsruhe-Basel"},
-    "A7": {"countries": ["DE"], "desc": "Flensburg-Hamburg-Hannover-Kassel-Ulm-Fuessen"},
-    "A9": {"countries": ["DE", "IT"], "desc": "Berlin-Leipzig-Nuernberg-Muenchen (DE)"},
-    "A10": {"countries": ["DE"], "desc": "Berliner Ring"},
     "A57": {"countries": ["DE"], "desc": "Goch-Moers-Koeln"},
     "A61": {"countries": ["DE"], "desc": "Venlo-Moenchengladbach-Koblenz-Ludwigshafen"},
     "A17": {"countries": ["DE"], "desc": "Dresden-CZ border"},
-    # France
-    "A1": {"countries": ["FR", "PL", "IT", "SI"], "desc": "Paris-Lille (FR)"},
-    "A6": {"countries": ["FR", "PL", "DE"], "desc": "Paris-Lyon (FR)"},
-    "A7": {"countries": ["FR", "DE"], "desc": "Lyon-Marseille (FR)"},
-    "A9": {"countries": ["FR", "DE"], "desc": "Orange-Narbonne-Perpignan-Spain (FR)"},
-    "A10": {"countries": ["FR", "DE"], "desc": "Paris-Bordeaux (FR)"},
+    # -- France (unique) -------------------------------------------------------
     "A26": {"countries": ["FR"], "desc": "Calais-Troyes"},
     "A35": {"countries": ["FR"], "desc": "Strasbourg-Mulhouse"},
-    # Netherlands
+    # -- Netherlands -----------------------------------------------------------
     "A15": {"countries": ["NL"], "desc": "Europoort-Rotterdam-Nijmegen"},
     "A16": {"countries": ["NL"], "desc": "Rotterdam-Breda-Belgium"},
-    # Austria
-    "A1": {"countries": ["AT", "PL", "FR", "IT", "SI"], "desc": "Wien-Linz-Salzburg (AT)"},
-    "A2": {"countries": ["AT", "PL", "NL"], "desc": "Wien-Graz-Klagenfurt (AT)"},
+    # -- Austria (unique) ------------------------------------------------------
     "A13": {"countries": ["AT"], "desc": "Innsbruck-Brenner"},
-    # Czech Republic
+    # -- Czech Republic --------------------------------------------------------
     "D1": {"countries": ["CZ", "SK"], "desc": "Praha-Brno-Ostrava (CZ) / Bratislava-Trnava (SK)"},
     "D2": {"countries": ["CZ"], "desc": "Brno-Bratislava"},
     "D5": {"countries": ["CZ"], "desc": "Praha-Plzen-Rozvadov"},
     "D8": {"countries": ["CZ"], "desc": "Praha-Usti nad Labem-DE border"},
-    # Hungary
-    "M1": {"countries": ["HU"], "desc": "Budapest-Gyor-Hegyeshalom"},
+    # -- Hungary (unique) ------------------------------------------------------
     "M3": {"countries": ["HU"], "desc": "Budapest-Nyiregyhaza-UA border"},
     "M5": {"countries": ["HU"], "desc": "Budapest-Szeged-SRB border"},
     "M7": {"countries": ["HU"], "desc": "Budapest-Balaton-Letenye"},
-    # Romania
-    "A1": {"countries": ["RO", "PL", "FR", "IT", "SI", "AT", "BG"], "desc": "Bucuresti-Pitesti-Sibiu (RO)"},
-    "A3": {"countries": ["RO", "DE"], "desc": "Bucuresti-Brasov-Cluj (RO)"},
-    # E-roads
+    # -- E-roads (pan-European) ------------------------------------------------
     "E30": {"countries": ["NL", "DE", "PL"], "desc": "Cork-London-Berlin-Warszawa-Moskva"},
     "E40": {"countries": ["BE", "DE", "PL", "UA"], "desc": "Calais-Bruxelles-Koeln-Dresden-Wroclaw-Krakow-Kyiv"},
     "E45": {"countries": ["DK", "DE", "AT", "IT"], "desc": "Aalborg-Hamburg-Muenchen-Innsbruck-Bologna-Roma"},
     "E55": {"countries": ["DK", "DE", "CZ", "AT", "IT"], "desc": "Helsingborg-Berlin-Praha-Salzburg"},
     "E65": {"countries": ["SE", "DK", "DE", "CZ", "SK", "HU", "HR"], "desc": "Malmoe-Berlin-Praha-Budapest-Zagreb-Dubrovnik"},
     "E80": {"countries": ["PT", "ES", "FR", "IT", "TR"], "desc": "Lisboa-Madrid-Toulouse-Genova-Roma-Istanbul"},
-    # UK
-    "M1": {"countries": ["GB", "HU"], "desc": "London-Leeds (GB)"},
+    # -- UK (unique) -----------------------------------------------------------
     "M25": {"countries": ["GB"], "desc": "London orbital"},
     "M6": {"countries": ["GB"], "desc": "Rugby-Birmingham-Manchester-Carlisle"},
     "M20": {"countries": ["GB"], "desc": "London-Folkestone (Channel Tunnel)"},
-    # Spain
+    # -- Spain (unique) --------------------------------------------------------
     "AP7": {"countries": ["ES"], "desc": "La Jonquera-Barcelona-Valencia-Malaga"},
-    "A2": {"countries": ["ES", "PL", "DE", "NL", "AT"], "desc": "Madrid-Zaragoza-Barcelona (ES)"},
-    # Italy
+    # -- Italy (unique) --------------------------------------------------------
     "A22": {"countries": ["IT"], "desc": "Brennero-Modena"},
-    "A4": {"countries": ["IT", "PL", "DE"], "desc": "Torino-Milano-Venezia-Trieste (IT)"},
-    # Switzerland
-    "A2": {"countries": ["CH", "PL", "DE", "NL", "AT", "ES"], "desc": "Basel-Gotthard-Chiasso (CH)"},
 }
 
 # ---------------------------------------------------------------------------
