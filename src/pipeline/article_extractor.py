@@ -9,8 +9,11 @@ Fetches full article text from source URLs and extracts structured intelligence:
 """
 
 import base64
+import ipaddress
 import logging
 import re
+import socket
+from urllib.parse import urlparse
 
 import httpx
 from bs4 import BeautifulSoup
@@ -22,6 +25,78 @@ BROWSER_UA = (
     "AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/124.0.0.0 Safari/537.36"
 )
+
+# --- SSRF protection & fetch limits -----------------------------------------
+_MAX_RESPONSE_BYTES = 2 * 1024 * 1024  # 2 MB
+_MAX_REDIRECTS = 3
+_BLOCKED_NETWORKS = [
+    ipaddress.ip_network("127.0.0.0/8"),
+    ipaddress.ip_network("10.0.0.0/8"),
+    ipaddress.ip_network("172.16.0.0/12"),
+    ipaddress.ip_network("192.168.0.0/16"),
+    ipaddress.ip_network("169.254.0.0/16"),
+    ipaddress.ip_network("::1/128"),
+    ipaddress.ip_network("fe80::/10"),
+    ipaddress.ip_network("fc00::/7"),
+]
+
+_http_client = httpx.AsyncClient(
+    timeout=httpx.Timeout(15.0, connect=10.0),
+    follow_redirects=False,
+    limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+)
+
+
+def _validate_url(url: str) -> None:
+    """Block non-HTTP schemes and private/reserved IPs (SSRF protection).
+
+    Resolves DNS to check actual IP addresses, not just hostname strings.
+    """
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        raise ValueError(f"Blocked URL scheme: {parsed.scheme!r}")
+    hostname = parsed.hostname
+    if not hostname:
+        raise ValueError("No hostname in URL")
+    addrinfos = socket.getaddrinfo(hostname, None, socket.AF_UNSPEC, socket.SOCK_STREAM)
+    for _family, _type, _proto, _canonname, sockaddr in addrinfos:
+        ip = ipaddress.ip_address(sockaddr[0])
+        for net in _BLOCKED_NETWORKS:
+            if ip in net:
+                raise ValueError(f"Blocked private/reserved IP {ip} for host {hostname}")
+
+
+async def _safe_get(url: str, headers: dict[str, str] | None = None) -> httpx.Response:
+    """HTTP GET with SSRF validation on every redirect hop and 2 MB body limit."""
+    _headers = dict(headers) if headers else {}
+    for _ in range(_MAX_REDIRECTS + 1):
+        _validate_url(url)
+        req = _http_client.build_request("GET", url, headers=_headers)
+        resp = await _http_client.send(req, stream=True)
+        if resp.is_redirect:
+            await resp.aclose()
+            location = resp.headers.get("location")
+            if not location:
+                raise ValueError("Redirect without Location header")
+            url = str(resp.url.join(location))
+            continue
+        # Stream body with size limit
+        chunks: list[bytes] = []
+        size = 0
+        async for chunk in resp.aiter_bytes():
+            size += len(chunk)
+            if size > _MAX_RESPONSE_BYTES:
+                await resp.aclose()
+                raise ValueError(f"Response exceeds {_MAX_RESPONSE_BYTES} byte limit")
+            chunks.append(chunk)
+        await resp.aclose()
+        resp._content = b"".join(chunks)  # noqa: SLF001
+        return resp
+    raise httpx.TooManyRedirects(
+        f"Exceeded {_MAX_REDIRECTS} redirects",
+        request=httpx.Request("GET", url),
+    )
+
 
 # Noise element selectors to remove before extracting text
 _NOISE_TAGS = {"nav", "footer", "aside", "header", "script", "style", "noscript", "iframe"}
@@ -243,13 +318,10 @@ async def resolve_google_news_url(google_url: str) -> str | None:
             "Accept": "text/html",
             "Cookie": "CONSENT=YES+cb.20210720-07-p0.en+FX+410",
         }
-        async with httpx.AsyncClient(
-            follow_redirects=True, timeout=10.0, verify=False, max_redirects=10
-        ) as client:
-            resp = await client.get(google_url, headers=headers)
-            final_url = str(resp.url)
-            if "consent.google.com" not in final_url and "news.google.com" not in final_url:
-                return final_url
+        resp = await _safe_get(google_url, headers=headers)
+        final_url = str(resp.url)
+        if "consent.google.com" not in final_url and "news.google.com" not in final_url:
+            return final_url
     except Exception:
         pass
 
@@ -277,12 +349,9 @@ async def fetch_article_text(url: str, language: str = "en") -> str | None:
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": f"{language},en;q=0.5",
         }
-        async with httpx.AsyncClient(
-            follow_redirects=True, timeout=10.0, verify=False
-        ) as client:
-            response = await client.get(url, headers=headers)
-            response.raise_for_status()
-            html = response.text
+        response = await _safe_get(url, headers=headers)
+        response.raise_for_status()
+        html = response.text
     except Exception as e:
         logger.debug("Article fetch failed for %s: %s", url[:80], e)
         return None
