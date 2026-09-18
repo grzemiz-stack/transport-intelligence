@@ -1,5 +1,10 @@
-"""Konfiguracja aplikacji ladowana ze zmiennych srodowiskowych (.env)."""
+"""Konfiguracja aplikacji ladowana ze zmiennych srodowiskowych (.env).
 
+Pola oznaczone jako wymagane (bez defaulta) musza byc ustawione w .env
+lub zmiennych srodowiskowych — w przeciwnym razie aplikacja nie wystartuje.
+"""
+
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 
@@ -8,14 +13,14 @@ class Settings(BaseSettings):
     postgres_host: str = "localhost"
     postgres_port: int = 5432
     postgres_db: str = "transport_intel"
-    postgres_user: str = "osx"
-    postgres_password: str = ""
-    database_url: str = "postgresql+asyncpg://osx@localhost:5432/transport_intel"
+    postgres_user: str = "admin"
+    postgres_password: str  # REQUIRED — no default
+    database_url: str  # REQUIRED — no default
 
     # Neo4j
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_user: str = "neo4j"
-    neo4j_password: str = "admin123"
+    neo4j_password: str  # REQUIRED — no default
 
     # Kafka
     kafka_bootstrap_servers: str = "localhost:9092"
@@ -26,10 +31,10 @@ class Settings(BaseSettings):
     # API
     api_host: str = "0.0.0.0"
     api_port: int = 8000
-    debug: bool = True
+    debug: bool = False
 
     # JWT Auth
-    jwt_secret_key: str = "220701570ec794826f887cd02c20fd2471db6c2775551aa03db8a043e5f3e660"
+    jwt_secret_key: str  # REQUIRED — no default
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 480
 
@@ -61,6 +66,16 @@ class Settings(BaseSettings):
 
     # Discord
     discord_bot_token: str = ""
+
+    @field_validator("jwt_secret_key")
+    @classmethod
+    def jwt_secret_must_not_be_weak(cls, v: str) -> str:
+        if len(v) < 32:
+            raise ValueError(
+                "JWT_SECRET_KEY must be at least 32 characters. "
+                "Generate one with: python3 -c \"import secrets; print(secrets.token_hex(32))\""
+            )
+        return v
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
 
