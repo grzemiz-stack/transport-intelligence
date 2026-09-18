@@ -10,29 +10,12 @@ Follows the same pattern as src/pipeline/translator.py:
 import hashlib
 import json
 import logging
-import time
 from collections import Counter, defaultdict
 
-import httpx
-
 from src.config import settings
+from src.utils.claude_client import ClaudeClient, COUNTRY_NAMES
 
 logger = logging.getLogger(__name__)
-
-# Rate limiting — 5 requests/minute (stricter than translator's 10/min)
-_MAX_REQUESTS_PER_MINUTE = 5
-_request_timestamps: list[float] = []
-
-
-def _rate_limit_ok() -> bool:
-    """Check if we can make another request (token bucket, 5/min)."""
-    now = time.time()
-    while _request_timestamps and _request_timestamps[0] < now - 60:
-        _request_timestamps.pop(0)
-    if len(_request_timestamps) >= _MAX_REQUESTS_PER_MINUTE:
-        return False
-    _request_timestamps.append(now)
-    return True
 
 
 class PatternAnalyzer:
@@ -40,84 +23,15 @@ class PatternAnalyzer:
 
     def __init__(self):
         self._cache: dict[str, dict | str] = {}
-        self._api_key = settings.anthropic_api_key
-        self._model = "claude-sonnet-4-20250514"
-
-    @staticmethod
-    def _extract_json(text: str) -> str:
-        """Extract JSON from response that may contain markdown fences or extra text."""
-        # Try raw first
-        stripped = text.strip()
-        if stripped.startswith("{"):
-            return stripped
-        # Try extracting from ```json ... ``` blocks
-        if "```" in stripped:
-            parts = stripped.split("```")
-            for part in parts:
-                part = part.strip()
-                if part.startswith("json"):
-                    part = part[4:].strip()
-                if part.startswith("{"):
-                    return part
-        # Find first { and last }
-        start = stripped.find("{")
-        end = stripped.rfind("}")
-        if start != -1 and end != -1 and end > start:
-            return stripped[start:end + 1]
-        return stripped
+        self._claude = ClaudeClient(
+            api_key=settings.anthropic_api_key,
+            timeout=60.0,
+        )
 
     def _cache_key(self, data) -> str:
         """MD5 hash of JSON-serialized input data."""
         raw = json.dumps(data, sort_keys=True, default=str)
         return hashlib.md5(raw.encode()).hexdigest()
-
-    # ------------------------------------------------------------------
-    # Core Claude API call
-    # ------------------------------------------------------------------
-
-    async def _call_claude(self, user_prompt: str, system_prompt: str) -> str | None:
-        """Call Claude API and return response text, or None on error."""
-        if not self._api_key:
-            logger.warning("ANTHROPIC_API_KEY not set — skipping AI analysis")
-            return None
-
-        if not _rate_limit_ok():
-            logger.warning("Analysis rate limit reached (5/min) — using fallback")
-            return None
-
-        try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
-                response = await client.post(
-                    "https://api.anthropic.com/v1/messages",
-                    headers={
-                        "x-api-key": self._api_key,
-                        "anthropic-version": "2023-06-01",
-                        "content-type": "application/json",
-                    },
-                    json={
-                        "model": self._model,
-                        "max_tokens": 4096,
-                        "system": system_prompt,
-                        "messages": [
-                            {"role": "user", "content": user_prompt},
-                        ],
-                    },
-                )
-
-            if response.status_code != 200:
-                logger.error(
-                    "Analysis API error %d: %s",
-                    response.status_code,
-                    response.text[:200],
-                )
-                return None
-
-            data = response.json()
-            return data["content"][0]["text"].strip()
-
-        except Exception as e:
-            logger.error("Analysis API call failed: %s", e)
-            return None
 
     # ------------------------------------------------------------------
     # Public methods
@@ -161,10 +75,10 @@ class PatternAnalyzer:
             f'"recommendation": "rekomendacja bezpieczenstwa (1-2 zdania)"}}'
         )
 
-        result_text = await self._call_claude(user_prompt, system_prompt)
+        result_text = await self._claude.call(user_prompt, system_prompt)
         if result_text:
             try:
-                parsed = json.loads(self._extract_json(result_text))
+                parsed = json.loads(ClaudeClient.extract_json(result_text))
                 result = {
                     "location": location,
                     "country_code": country,
@@ -215,10 +129,10 @@ class PatternAnalyzer:
             f'"recommendations": ["lista rekomendacji bezpieczenstwa"]}}'
         )
 
-        result_text = await self._call_claude(user_prompt, system_prompt)
+        result_text = await self._claude.call(user_prompt, system_prompt)
         if result_text:
             try:
-                parsed = json.loads(self._extract_json(result_text))
+                parsed = json.loads(ClaudeClient.extract_json(result_text))
                 result = {
                     "corridor": corridor_name,
                     "total_events": len(events_on_route),
@@ -282,10 +196,10 @@ class PatternAnalyzer:
             f"\nrisk_score: 0-100, gdzie 100 = najwyzsze ryzyko"
         )
 
-        result_text = await self._call_claude(user_prompt, system_prompt)
+        result_text = await self._claude.call(user_prompt, system_prompt)
         if result_text:
             try:
-                parsed = json.loads(self._extract_json(result_text))
+                parsed = json.loads(ClaudeClient.extract_json(result_text))
                 result = {
                     "company": company_name,
                     "country_code": company_financials.get("country_code", ""),
@@ -357,7 +271,7 @@ class PatternAnalyzer:
             f"4. Zakonczyc rekomendacjami"
         )
 
-        result_text = await self._call_claude(user_prompt, system_prompt)
+        result_text = await self._claude.call(user_prompt, system_prompt)
         if result_text:
             self._cache[cache_key] = result_text
             return result_text
@@ -408,12 +322,7 @@ class PatternAnalyzer:
             for e in recent
         )
 
-        country_names = {
-            "PL": "Polska", "DE": "Niemcy", "CZ": "Czechy", "SK": "Slowacja",
-            "AT": "Austria", "HU": "Wegry", "RO": "Rumunia", "NL": "Holandia",
-            "FR": "Francja", "IT": "Wlochy", "ES": "Hiszpania", "GB": "Wielka Brytania",
-        }
-        country_name = country_names.get(country_code, country_code)
+        country_name = COUNTRY_NAMES.get(country_code, country_code)
 
         system_prompt = (
             "Jestes analitykiem Transport Intelligence. "
@@ -431,7 +340,7 @@ class PatternAnalyzer:
             f"4. Dac rekomendacje dla przewoznikow operujacych w tym kraju"
         )
 
-        result_text = await self._call_claude(user_prompt, system_prompt)
+        result_text = await self._claude.call(user_prompt, system_prompt)
         if result_text:
             self._cache[cache_key] = result_text
             return result_text

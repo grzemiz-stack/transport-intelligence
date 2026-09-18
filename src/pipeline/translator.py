@@ -7,29 +7,11 @@ Rate limiting: max 10 requestow/min.
 
 import hashlib
 import logging
-import time
-
-import httpx
 
 from src.config import settings
+from src.utils.claude_client import ClaudeClient
 
 logger = logging.getLogger(__name__)
-
-# Rate limiting
-_MAX_REQUESTS_PER_MINUTE = 10
-_request_timestamps: list[float] = []
-
-
-def _rate_limit_ok() -> bool:
-    """Check if we can make another request (token bucket, 10/min)."""
-    now = time.time()
-    # Remove timestamps older than 60s
-    while _request_timestamps and _request_timestamps[0] < now - 60:
-        _request_timestamps.pop(0)
-    if len(_request_timestamps) >= _MAX_REQUESTS_PER_MINUTE:
-        return False
-    _request_timestamps.append(now)
-    return True
 
 
 class EventTranslator:
@@ -46,8 +28,11 @@ class EventTranslator:
 
     def __init__(self):
         self._cache: dict[str, str] = {}
-        self._api_key = settings.anthropic_api_key
-        self._model = "claude-sonnet-4-20250514"
+        self._claude = ClaudeClient(
+            api_key=settings.anthropic_api_key,
+            max_requests_per_minute=10,
+            timeout=30.0,
+        )
 
     def _text_hash(self, text: str) -> str:
         return hashlib.md5(text.encode()).hexdigest()
@@ -74,52 +59,16 @@ class EventTranslator:
         if h in self._cache:
             return self._cache[h]
 
-        # Check API key
-        if not self._api_key:
-            logger.warning("ANTHROPIC_API_KEY not set — returning original text")
+        user_prompt = f"Przetlumacz na polski (zrodlo: {source_language}):\n\n{text}"
+        translated = await self._claude.call(
+            user_prompt, self.SYSTEM_PROMPT, max_tokens=1024,
+        )
+
+        if translated is None:
             return f"[{source_language}] {text}" if source_language else text
 
-        # Rate limit
-        if not _rate_limit_ok():
-            logger.warning("Translation rate limit reached (10/min) — returning original")
-            return f"[{source_language}] {text}" if source_language else text
-
-        try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
-                response = await client.post(
-                    "https://api.anthropic.com/v1/messages",
-                    headers={
-                        "x-api-key": self._api_key,
-                        "anthropic-version": "2023-06-01",
-                        "content-type": "application/json",
-                    },
-                    json={
-                        "model": self._model,
-                        "max_tokens": 1024,
-                        "system": self.SYSTEM_PROMPT,
-                        "messages": [
-                            {
-                                "role": "user",
-                                "content": f"Przetlumacz na polski (zrodlo: {source_language}):\n\n{text}",
-                            }
-                        ],
-                    },
-                )
-
-            if response.status_code != 200:
-                logger.error("Translation API error %d: %s", response.status_code, response.text[:200])
-                return f"[{source_language}] {text}" if source_language else text
-
-            data = response.json()
-            translated = data["content"][0]["text"].strip()
-
-            # Cache result
-            self._cache[h] = translated
-            return translated
-
-        except Exception as e:
-            logger.error("Translation failed: %s", e)
-            return f"[{source_language}] {text}" if source_language else text
+        self._cache[h] = translated
+        return translated
 
     async def translate_event(self, event: dict) -> dict:
         """Translate event title and description to Polish.

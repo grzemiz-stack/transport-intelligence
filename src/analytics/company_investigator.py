@@ -16,7 +16,6 @@ import hashlib
 import json
 import logging
 import re
-import time
 import uuid
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
@@ -26,33 +25,9 @@ from urllib.parse import quote_plus
 import httpx
 
 from src.config import settings
+from src.utils.claude_client import ClaudeClient, COUNTRY_NAMES
 
 logger = logging.getLogger(__name__)
-
-# Rate limiting — 5 requests/minute for Claude API (shared module-level)
-_MAX_REQUESTS_PER_MINUTE = 5
-_request_timestamps: list[float] = []
-
-
-def _rate_limit_ok() -> bool:
-    """Check if we can make another Claude API request (token bucket, 5/min)."""
-    now = time.time()
-    while _request_timestamps and _request_timestamps[0] < now - 60:
-        _request_timestamps.pop(0)
-    if len(_request_timestamps) >= _MAX_REQUESTS_PER_MINUTE:
-        return False
-    _request_timestamps.append(now)
-    return True
-
-
-COUNTRY_NAMES = {
-    "PL": "Polska", "DE": "Niemcy", "CZ": "Czechy", "SK": "Slowacja",
-    "AT": "Austria", "HU": "Wegry", "RO": "Rumunia", "NL": "Holandia",
-    "FR": "Francja", "IT": "Wlochy", "ES": "Hiszpania", "GB": "Wielka Brytania",
-    "BE": "Belgia", "DK": "Dania", "SE": "Szwecja", "NO": "Norwegia",
-    "FI": "Finlandia", "HR": "Chorwacja", "SI": "Slowenia", "BG": "Bulgaria",
-    "GR": "Grecja", "LT": "Litwa", "LV": "Lotwa", "EE": "Estonia",
-}
 
 # Country-specific registries to check
 COUNTRY_SOURCES = {
@@ -79,86 +54,18 @@ class CompanyInvestigator:
 
     def __init__(self):
         self._cache: dict[str, dict] = {}
-        self._api_key = settings.anthropic_api_key
-        self._model = "claude-sonnet-4-20250514"
+        self._claude = ClaudeClient(
+            api_key=settings.anthropic_api_key,
+            timeout=90.0,
+        )
         self._vies_checker = None  # lazy init
         self._last_external_request: float = 0.0
         self._RATE_LIMIT_SECONDS = 5.0
-
-    # ------------------------------------------------------------------
-    # Reused helpers (from InsolvencyAnalyzer pattern)
-    # ------------------------------------------------------------------
-
-    @staticmethod
-    def _extract_json(text: str) -> str:
-        """Extract JSON from response that may contain markdown fences."""
-        stripped = text.strip()
-        if stripped.startswith("{") or stripped.startswith("["):
-            return stripped
-        if "```" in stripped:
-            parts = stripped.split("```")
-            for part in parts:
-                part = part.strip()
-                if part.startswith("json"):
-                    part = part[4:].strip()
-                if part.startswith("{") or part.startswith("["):
-                    return part
-        start = stripped.find("{")
-        end = stripped.rfind("}")
-        if start != -1 and end != -1 and end > start:
-            return stripped[start:end + 1]
-        return stripped
 
     def _cache_key(self, data) -> str:
         """MD5 hash of JSON-serialized input data."""
         raw = json.dumps(data, sort_keys=True, default=str)
         return hashlib.md5(raw.encode()).hexdigest()
-
-    async def _call_claude(
-        self, user_prompt: str, system_prompt: str, max_tokens: int = 4096,
-    ) -> str | None:
-        """Call Claude API and return response text, or None on error."""
-        if not self._api_key:
-            logger.warning("ANTHROPIC_API_KEY not set — skipping AI analysis")
-            return None
-
-        if not _rate_limit_ok():
-            logger.warning("Analysis rate limit reached (5/min) — using fallback")
-            return None
-
-        try:
-            async with httpx.AsyncClient(timeout=90.0) as client:
-                response = await client.post(
-                    "https://api.anthropic.com/v1/messages",
-                    headers={
-                        "x-api-key": self._api_key,
-                        "anthropic-version": "2023-06-01",
-                        "content-type": "application/json",
-                    },
-                    json={
-                        "model": self._model,
-                        "max_tokens": max_tokens,
-                        "system": system_prompt,
-                        "messages": [
-                            {"role": "user", "content": user_prompt},
-                        ],
-                    },
-                )
-
-            if response.status_code != 200:
-                logger.error(
-                    "Claude API error %d: %s",
-                    response.status_code,
-                    response.text[:200],
-                )
-                return None
-
-            data = response.json()
-            return data["content"][0]["text"].strip()
-
-        except Exception as e:
-            logger.error("Claude API call failed: %s", e)
-            return None
 
     async def _search_google_news(self, query: str, lang: str = "en") -> list[dict]:
         """Search Google News RSS for articles about a company."""
@@ -1505,10 +1412,10 @@ RULES:
 - risk_signals should be sorted by severity (CRITICAL first)
 """
 
-        result_text = await self._call_claude(user_prompt, system_prompt, max_tokens=8192)
+        result_text = await self._claude.call(user_prompt, system_prompt, max_tokens=8192)
         if result_text:
             try:
-                parsed = json.loads(self._extract_json(result_text))
+                parsed = json.loads(ClaudeClient.extract_json(result_text))
                 return parsed
             except (json.JSONDecodeError, ValueError) as e:
                 logger.warning("Failed to parse investigation synthesis JSON: %s", e)
